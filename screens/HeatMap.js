@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState, useRef} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+import MapView, {Marker, Polyline} from 'react-native-maps';
 import * as Location from 'expo-location';
 import Constants from '../StoredData.js';
 import MapThemes from '../MapThemes.js';
@@ -108,18 +108,25 @@ useEffect(()=>{getData()},[date_gasite]);
       <MapView
         ref={_map}
         style={styles.mapStyle}
+        customMapStyle={MapThemes.customMapStyleDark}
         initialCamera={{
           center: {
-            latitude: userLat,
-            longitude: userLon
+            latitude: 45.84160,
+            longitude: 24.973095
           },
-          zoom: 10,
+          zoom:6,
           heading: 0,
           pitch: 0,
           altitude: 1000
         }
       }
       >
+
+        <Polyline 
+        lineDashPattern={[0]}
+        coordinates={Constants.romPol}
+        strokeColor={'#0056F1'}
+        strokeWidth={6}/>
 
       {
         listaJudete.map(judet => (
@@ -133,7 +140,9 @@ useEffect(()=>{getData()},[date_gasite]);
           onPress={() => prepareDataForModal(judet)}
 
           >
-            <View style={{  backgroundColor:`rgba(50, 0,${judet.total_county%200}, 1)`, 
+            <View style={{  backgroundColor:(judet.total_county > 1000 ? '#094AA8' : 
+                                                                          (judet.total_county > 500  && judet.total_county<1000 ? '#0056F1' : '#7ABAF9')
+                            ), 
                             height:20,
                             width:20,
                             borderRadius:30,
@@ -163,7 +172,7 @@ useEffect(()=>{getData()},[date_gasite]);
         </Portal>
       </Provider>
 
-      {/* <Button style={{marginTop:100, position:'absolute'}} onPress={()=> {navigation.navigate("NavigationScreen", { userLat:userLat, userLon:userLon, destLat:44.4267674, destLon:26.1025384  })}}>Press me to navigate</Button> */}
+      <Button style={{marginTop:100, position:'absolute'}} onPress={()=> {navigation.navigate("NavigationScreen", { userLat:userLat, userLon:userLon, destLat:44.4267674, destLon:26.1025384  })}}>Press me to navigate</Button>
     </View>
   );
 }else{
