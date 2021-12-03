@@ -14,6 +14,9 @@ export default function NavigationScreen({route, navigation}) {
     const [currentPosition, setCurrentPosition] = useState({latitude:userLat, longitude:userLon});
     const [rotation, changeRotation] = useState(false);
     const [mode, setMode] = useState("DRIVING");
+    const [speed, changeSpeed] = useState(0);
+    const [distance, changeDistance] = useState(0);
+    const [time, changeTime] = useState(0);
     const _map = useRef(null);
 
     return(
@@ -25,7 +28,7 @@ export default function NavigationScreen({route, navigation}) {
              showsUserLocation={true}
              showsMyLocationButton={false}
              showsBuildings={false}
-             onUserLocationChange={newLocation => (rotation === true && newLocation.nativeEvent.coordinate.speed > 1.0) ? (_map.current.animateCamera({center: newLocation.nativeEvent.coordinate, heading: newLocation.nativeEvent.coordinate.heading}), setCurrentPosition(newLocation.nativeEvent.coordinate)) : ( setCurrentPosition(newLocation.nativeEvent.coordinate) )}
+             onUserLocationChange={newLocation => (rotation === true && newLocation.nativeEvent.coordinate.speed > 1.0) ? (_map.current.animateCamera({center: newLocation.nativeEvent.coordinate, heading: newLocation.nativeEvent.coordinate.heading}), setCurrentPosition(newLocation.nativeEvent.coordinate), changeSpeed(newLocation.nativeEvent.coordinate.speed)) : ( setCurrentPosition(newLocation.nativeEvent.coordinate), changeSpeed(newLocation.nativeEvent.coordinate.speed) )}
 
              initialCamera={{
                center: {
@@ -54,6 +57,10 @@ export default function NavigationScreen({route, navigation}) {
           timePrecision="now"
           resetOnChange={false}
           mode={mode}
+          onReady={result => {
+            changeDistance(result.distance)
+            changeTime(result.duration)
+          }}
         />
 
             </MapView>
@@ -92,7 +99,7 @@ export default function NavigationScreen({route, navigation}) {
                   <Avatar.Icon icon="clock-outline" color={ 'white'}  backgroundColor={"#094AA8"} size={25} />
                   <View style={{marginLeft:'5%'}}>
                     <Text style={{fontSize:12, fontFamily:'bold-font', color:"#094AA8"}} >
-                      5 MIN
+                      {time > 60 ? (time/60).toFixed(1)  + ' H' : time + " mins"} 
                     </Text>
                     <Text style={{fontSize:10, fontFamily:'normal-font', color:"#094AA8"}} >Time</Text>
                   </View>
@@ -101,7 +108,7 @@ export default function NavigationScreen({route, navigation}) {
                   <Avatar.Icon icon="speedometer" color={ 'white'}  backgroundColor={"#094AA8"} size={25} />
                   <View style={{marginLeft:'5%'}}>
                     <Text style={{fontSize:12, fontFamily:'bold-font', color:"#094AA8"}} >
-                      45.2 KM/H
+                      {parseInt(speed*3.6)} KM/H
                     </Text>
                     <Text style={{fontSize:10, fontFamily:'normal-font', color:"#094AA8"}} >Current speed</Text>
                   </View>
@@ -110,7 +117,7 @@ export default function NavigationScreen({route, navigation}) {
                   <Avatar.Icon icon="navigation" color={ 'white'}  backgroundColor={"#094AA8"} size={25} />
                   <View style={{marginLeft:'5%'}}>
                     <Text style={{fontSize:12, fontFamily:'bold-font', color:"#094AA8"}} >
-                      168.7 KM
+                      {distance.toFixed(1)} KM
                     </Text>
                     <Text style={{fontSize:10, fontFamily:'normal-font', color:"#094AA8"}} >Distance</Text>
                   </View>
