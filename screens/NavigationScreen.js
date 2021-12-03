@@ -6,7 +6,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import * as Location from 'expo-location';
 import Constants from '../StoredData.js';
 import MapThemes from '../MapThemes.js';
-import { Button, Modal, Portal, Provider, Icon } from 'react-native-paper';
+import { Button, Modal, Portal, Provider, Icon, Avatar, IconButton } from 'react-native-paper';
 
 export default function NavigationScreen({route, navigation}) {
 
@@ -57,16 +57,73 @@ export default function NavigationScreen({route, navigation}) {
         />
 
             </MapView>
+            <View style={{
+                  position:'absolute',
+                  bottom:10,
+                  backgroundColor:'white',
+                  shadowColor: "#000",
+                  shadowOffset: {
+                      width: 4,
+                      height: 3,
+                  },
+                  shadowOpacity: 0.29,
+                  shadowRadius: 4.65,
 
-            <View style={styles.navDetailsView}> 
-            <Button icon="clock-outline" color={ "#0056F1"} backgroundColor='red'>5 min</Button>
-              <Button icon="speedometer"  color={ "#0056F1"} >45.2 km/h</Button>
-              <Button icon="navigation" color={ "#0056F1"} >168.7 km</Button>
-            </View>
-            <View style={styles.footer}>
-              <Button icon="car" color={ mode ==="DRIVING" ? "#00DBFF":"#0056F1"} onPress={() => setMode('DRIVING')}>drive</Button>
-              <Button icon="walk"  color={ mode ==="WALKING" ? "#00DBFF":"#0056F1"} onPress={() => setMode('WALKING')}>walk</Button>
-              <Button icon="crosshairs-gps" color={ rotation === true ? "#00DBFF": "#0056F1"} onPress={() => (rotation === true ? _map.current.animateCamera({ zoom: 15, pitch: 0 }) : _map.current.animateCamera({ zoom: 18, pitch: 60 }), changeRotation(!rotation))}>center</Button>
+                  elevation: 3,
+                  width:'96%',
+                  marginHorizontal:'2%',
+                  height:200,
+                  borderRadius:20
+            }}>
+              <View style={{ marginHorizontal:"5%", marginTop:'5%', flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
+                <View style={{flexDirection:'row', flex:0.7, alignItems:'center'}}>
+                  <Avatar.Icon icon="hospital-building" color={ 'white'}  backgroundColor={"#094AA8"} size={50} style={{borderRadius:5}} />
+                  <Text style={{fontSize:14, fontFamily:'bold-font', color:"#094AA8", marginLeft:'2%'}}>
+                    Spitalul Judetean de Boli Infectioase Timisoara
+                  </Text>
+                </View>
+                <IconButton   mode='contained' icon='close-circle-outline' color={"white"} size={25} style={{backgroundColor:"#094AA8"}}
+                          onPress={() => navigation.navigate("HeatMap")}
+                />
+              </View>
+              <View style={{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%', marginTop:'2%'}}></View>
+              <View style={{flexDirection:'row', justifyContent:'space-around', marginVertical:'2%'}}>
+                <View style={{flexDirection:'row', alignItems:'center'}}>
+                  <Avatar.Icon icon="clock-outline" color={ 'white'}  backgroundColor={"#094AA8"} size={25} />
+                  <View style={{marginLeft:'5%'}}>
+                    <Text style={{fontSize:12, fontFamily:'bold-font', color:"#094AA8"}} >
+                      5 MIN
+                    </Text>
+                    <Text style={{fontSize:10, fontFamily:'normal-font', color:"#094AA8"}} >Time</Text>
+                  </View>
+                </View>
+                <View style={{flexDirection:'row', alignItems:'center'}}>
+                  <Avatar.Icon icon="speedometer" color={ 'white'}  backgroundColor={"#094AA8"} size={25} />
+                  <View style={{marginLeft:'5%'}}>
+                    <Text style={{fontSize:12, fontFamily:'bold-font', color:"#094AA8"}} >
+                      45.2 KM/H
+                    </Text>
+                    <Text style={{fontSize:10, fontFamily:'normal-font', color:"#094AA8"}} >Current speed</Text>
+                  </View>
+                </View>
+                <View style={{flexDirection:'row', alignItems:'center'}}>
+                  <Avatar.Icon icon="navigation" color={ 'white'}  backgroundColor={"#094AA8"} size={25} />
+                  <View style={{marginLeft:'5%'}}>
+                    <Text style={{fontSize:12, fontFamily:'bold-font', color:"#094AA8"}} >
+                      168.7 KM
+                    </Text>
+                    <Text style={{fontSize:10, fontFamily:'normal-font', color:"#094AA8"}} >Distance</Text>
+                  </View>
+                </View>
+              </View>
+
+              <View style={{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%'}}></View>
+
+              <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+                <Button icon="car" color={ mode ==="DRIVING" ? "#00DBFF":"#094AA8"} onPress={() => setMode('DRIVING')}>drive</Button>
+                <Button icon="walk"  color={ mode ==="WALKING" ? "#00DBFF":"#094AA8"} onPress={() => setMode('WALKING')}>walk</Button>
+                <Button icon="crosshairs-gps" color={ rotation === true ? "#00DBFF": "#094AA8"} onPress={() => (rotation === true ? _map.current.animateCamera({ zoom: 15, pitch: 0 }) : _map.current.animateCamera({ zoom: 18, pitch: 60 }), changeRotation(!rotation))}>center</Button>
+              </View>
             </View>
         </View> 
     )
