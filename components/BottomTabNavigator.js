@@ -9,6 +9,10 @@ export default class BottomNavigator extends React.Component {
         super();
     }
 
+    sendData(){
+        this.props.heatMapCallback(true);
+    }
+
     render() {
         return (
             <View style={{ position:'absolute', bottom:0, left:0, right:0, top:0}}> 
@@ -28,7 +32,7 @@ export default class BottomNavigator extends React.Component {
                                 }}
                         icon="navigation"
                         color="white"
-                        onPress={ () => this.props.navigation.navigate("Hospitals",{ ...this.props.data })}
+                        onPress={ () => this.sendData() }
                     />
                 </View>
                 <View style={{  position: 'absolute', 
