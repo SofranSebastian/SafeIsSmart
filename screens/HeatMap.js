@@ -7,6 +7,7 @@ import Constants from '../StoredData.js';
 import MapThemes from '../MapThemes.js';
 import { Button, Modal, Portal, Provider, Avatar } from 'react-native-paper';
 import NavigationScreen from './NavigationScreen.js';
+import BottomTabNavigator from '../components/BottomTabNavigator.js';
 
 export default function HeatMap({route, navigation}) {
 
@@ -191,7 +192,7 @@ useEffect(()=>{getData()},[date_gasite]);
         </Portal>
       </Provider>
 
-      <View style={{position:'absolute', bottom:10, right:10, height: 125, width:170, backgroundColor:'white', borderRadius:20, alignItems:'center',shadowColor: "#000",
+      <View style={{position:'absolute', top:'10%', right:10, height: 125, width:170, backgroundColor:'white', borderRadius:20, alignItems:'center',shadowColor: "#000",
                             shadowOffset: {
                                 width: 4,
                                 height: 3,
@@ -216,7 +217,8 @@ useEffect(()=>{getData()},[date_gasite]);
           </View>
         </View>
       </View>
-      <Button style={{marginTop:100, position:'absolute'}} onPress={()=> {navigation.navigate("NavigationScreen", { userLat:userLat, userLon:userLon, destLat:44.4267674, destLon:26.1025384  })}}>Press me to navigate</Button>
+      {/* <Button style={{marginTop:100, position:'absolute'}} onPress={()=> {navigation.navigate("NavigationScreen", { userLat:userLat, userLon:userLon, destLat:44.4267674, destLon:26.1025384  })}}>Press me to navigate</Button> */}
+      <BottomTabNavigator navigation={navigation} data= {{ userLat:userLat, userLon:userLon, destLat:44.4267674, destLon:26.1025384  }}/>
     </View>
   );
 }else{
