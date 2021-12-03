@@ -124,17 +124,6 @@ static listaJd = [
       "total_healed": 0,
     },
      {
-      "county": "JUDEȚ NECUNOSCUT",
-      "county_code": "NA",
-      "location":  {
-        "lat": 47.4756897,
-        "lng": 22.5826925,
-      },
-      "total_county": 1115,
-      "total_dead": 0,
-      "total_healed": 0,
-    },
-     {
       "county": "BACĂU",
       "county_code": "BC",
       "location":  {

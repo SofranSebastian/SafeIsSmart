@@ -52,13 +52,20 @@ async function getData(){
   const jsonFormat = await responde.json();
   
   let newList = jsonFormat.data.data;
+  for(let i=0; i < newList.length; i++){
+    if(newList[i].county_code === "NA"){
+      newList.splice(i,1);
+    }
+  }
+  
   let cloneListForJudete = listaJudete;
-  for(let i = 0; i < 40 ; i++){
+
+  for(let i = 0; i < 39 ; i++){
     cloneListForJudete[i].total_county = newList[i].total_county;
     cloneListForJudete[i].total_dead = newList[i].total_dead;
     cloneListForJudete[i].total_healed = newList[i].total_healed;
   }
-
+  
   setListaJudete(cloneListForJudete);
 
   // obtinere lat si lon pt fiecare judet si formatare lista pentru a adauga campurile respective
