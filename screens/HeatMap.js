@@ -159,7 +159,7 @@ useEffect(()=>{getData()},[date_gasite]);
         <Portal>
           <Modal  visible={visible} 
                   onDismiss={hideModal} 
-                  contentContainerStyle={{backgroundColor: 'white', alignItems:'center', width:'80%', marginHorizontal:'10%',height: 450, borderRadius:20}}
+                  contentContainerStyle={{backgroundColor: 'white', alignItems:'center', width:'80%', marginHorizontal:'10%',height: 450, borderRadius:20, marginTop:'5%'}}
           >
             <View style={{flex:1}}>
             <View style={{flex:0.3, alignItems:'center', justifyContent:'center'}}>
