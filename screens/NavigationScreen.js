@@ -41,7 +41,7 @@ export default function NavigationScreen({route, navigation}) {
             >
 
         <MapViewDirections
-          lineDashPattern={[0]}
+          lineDashPattern={[0,0]}
           origin={currentPosition}
           destination={{
               latitude:destLat,
