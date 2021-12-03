@@ -5,14 +5,14 @@ import MapView, {Marker} from 'react-native-maps';
 import * as Location from 'expo-location';
 import Constants from '../StoredData.js';
 import MapThemes from '../MapThemes.js';
-import ModalCountyDetail from '../components/ModalCountyDetail.js';
 import { Button, Modal, Portal, Provider } from 'react-native-paper';
+import NavigationScreen from './NavigationScreen.js';
 
 
 
 
 
-export default function HeatMap() {
+export default function HeatMap({route, navigation}) {
 
 
   const [visible, setVisible] = useState(false);
@@ -162,6 +162,8 @@ useEffect(()=>{getData()},[date_gasite]);
           </Modal>
         </Portal>
       </Provider>
+
+      {/* <Button style={{marginTop:100, position:'absolute'}} onPress={()=> {navigation.navigate("NavigationScreen", { userLat:userLat, userLon:userLon, destLat:44.4267674, destLon:26.1025384  })}}>Press me to navigate</Button> */}
     </View>
   );
 }else{

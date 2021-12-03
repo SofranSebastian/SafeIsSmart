@@ -2,6 +2,7 @@ import React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import NavigationScreen from '../screens/NavigationScreen.js';
 
 import HeatMap from "../screens/HeatMap"
 
@@ -20,6 +21,15 @@ function AppMainStack() {
                                     }
 
                 />
+                <MainStack.Screen   name = "NavigationScreen"
+                                    component = { NavigationScreen }
+                                    options = {
+                                        ({ navigation, route }) => ({
+                                            headerShown: false,
+                                        })
+                                    }
+
+                />                
             </MainStack.Navigator>
         </NavigationContainer>
     )
