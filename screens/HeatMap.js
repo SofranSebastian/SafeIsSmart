@@ -218,7 +218,7 @@ useEffect(()=>{getData()},[date_gasite]);
         </View>
       </View>
       {/* <Button style={{marginTop:100, position:'absolute'}} onPress={()=> {navigation.navigate("NavigationScreen", { userLat:userLat, userLon:userLon, destLat:44.4267674, destLon:26.1025384  })}}>Press me to navigate</Button> */}
-      <BottomTabNavigator navigation={navigation} data= {{ userLat:userLat, userLon:userLon, destLat:44.4267674, destLon:26.1025384  }}/>
+      <BottomTabNavigator navigation={navigation} data= {{ userLat:userLat, userLon:userLon, radius: 5  }}/>
     </View>
   );
 }else{
