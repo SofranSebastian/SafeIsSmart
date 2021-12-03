@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { FAB, Button, IconButton } from 'react-native-paper';
+import Hospitals from '../screens/Hospitals';
 
 export default class BottomNavigator extends React.Component {
 
@@ -27,7 +28,7 @@ export default class BottomNavigator extends React.Component {
                                 }}
                         icon="navigation"
                         color="white"
-                        onPress={ () => this.props.navigation.navigate("NavigationScreen",{ ...this.props.data })}
+                        onPress={ () => this.props.navigation.navigate("Hospitals",{ ...this.props.data })}
                     />
                 </View>
                 <View style={{  position: 'absolute', 
