@@ -20,8 +20,8 @@ export default class BottomNavigator extends React.Component {
                                 zIndex: 10 }}>
                     <FAB
                         style={{    position: 'absolute',
-                                    right: 0,
-                                    bottom: 0,
+                                    right: -1,
+                                    bottom: -1,
                                     margin:8,
                                     backgroundColor:'#094AA8',
                                 }}
