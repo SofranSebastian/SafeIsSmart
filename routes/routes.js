@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import NavigationScreen from '../screens/NavigationScreen.js';
 
 import HeatMap from "../screens/HeatMap"
+import Hospitals from '../screens/Hospitals.js';
 
 const MainStack = createNativeStackNavigator();
 
@@ -29,7 +30,16 @@ function AppMainStack() {
                                         })
                                     }
 
-                />                
+                />   
+                <MainStack.Screen   name = "Hospitals"
+                                    component = { Hospitals }
+                                    options = {
+                                        ({ navigation, route }) => ({
+                                            headerShown: false,
+                                        })
+                                    }
+
+                />              
             </MainStack.Navigator>
         </NavigationContainer>
     )
