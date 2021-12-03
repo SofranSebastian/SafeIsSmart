@@ -91,18 +91,19 @@ useEffect(()=>{getData()},[date_gasite]);
 
       {
         listaJudete.map(judet => (
-          <Marker 
-          title = {judet.county}
-          pinColor='purple'
-          coordinate= {{
+          <MapView.Marker           coordinate= {{
             latitude: judet.location.lat,
             longitude: judet.location.lng
           }
-          }
-          description = {"Nu merge"}
+          } 
           key={judet.county_code}
+          pinColor='purple'
+          title={judet.county}
+          onPress={() => {console.log(judet.total_county, judet.total_healed, judet.total_dead)}}
 
-           />
+          >
+
+          </MapView.Marker>
         ))
       }
 

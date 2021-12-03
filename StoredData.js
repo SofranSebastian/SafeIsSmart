@@ -270,8 +270,8 @@ static listaJd = [
       "county": "ALBA",
       "county_code": "AB",
       "location":  {
-        "lat": 37.2383894,
-        "lng": -94.4174489,
+        "lat": 46.155892,
+        "lng": 23.555612,
       },
       "total_county": 671,
       "total_dead": 23,
@@ -314,8 +314,8 @@ static listaJd = [
       "county": "OLT",
       "county_code": "OT",
       "location":  {
-        "lat": 39.7680109,
-        "lng": -94.8508776,
+        "lat": 44.200797,
+        "lng": 24.502298,
       },
       "total_county": 610,
       "total_dead": 16,
