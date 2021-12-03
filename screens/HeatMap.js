@@ -11,10 +11,11 @@ import BottomTabNavigator from '../components/BottomTabNavigator.js';
 
 export default function HeatMap({route, navigation}) {
 
+const [radiusModalVisible, setRadiusModalVisible] = useState(false);
+const hideRadiusModal = () => setRadiusModalVisible(false);
+const showRadiusModal = () => setRadiusModalVisible(true);
 
-  const [visible, setVisible] = useState(false);
-  
-
+const [visible, setVisible] = useState(false);
 const hideModal = () => setVisible(false);
 const showModal = () => setVisible(true);
 
@@ -218,7 +219,35 @@ useEffect(()=>{getData()},[date_gasite]);
         </View>
       </View>
       {/* <Button style={{marginTop:100, position:'absolute'}} onPress={()=> {navigation.navigate("NavigationScreen", { userLat:userLat, userLon:userLon, destLat:44.4267674, destLon:26.1025384  })}}>Press me to navigate</Button> */}
-      <BottomTabNavigator navigation={navigation} data= {{ userLat:userLat, userLon:userLon, radius: 5  }}/>
+      <Provider>
+        <Portal>
+          <Modal  visible={radiusModalVisible} 
+                  onDismiss={hideModal} 
+                  contentContainerStyle={{backgroundColor: 'white', alignItems:'center', width:'80%', marginHorizontal:'10%',height: 450, borderRadius:20}}
+          >
+            <View style={{flex:1}}>
+            <View style={{flex:0.3, alignItems:'center', justifyContent:'center'}}>
+              
+            </View>
+            <View style={{ flex:0.5, justifyContent:'space-around'}}>
+                  <Text style={{fontSize:24, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"}}>SELECT RADIUS</Text>
+            </View>
+            <View style={{flex:0.2, justifyContent:'center', alignItems:'center'}}>
+              <Button icon="navigation" size={20}  mode='contained' color="#094AA8" onPress={()=> navigation.navigate('NavigationScreen',{ userLat:userLat, userLon:userLon, radius: 5  })}>
+                 NAVIGATE
+              </Button>
+              <Button icon="close-circle-outline" size={15}  mode='text' color="#094AA8" onPress={()=> hideRadiusModal()}>
+                 DISMISS
+              </Button>
+            </View>
+            </View>
+          </Modal>
+        </Portal>
+      </Provider>
+      <BottomTabNavigator navigation={navigation} 
+                          //data= {{ userLat:userLat, userLon:userLon, radius: 5  }}
+                          heatMapCallback = { (data) => showModalForRadius(data) }
+      />
     </View>
   );
 }else{
@@ -231,6 +260,10 @@ useEffect(()=>{getData()},[date_gasite]);
 
 }
 
+
+function showModalForRadius(childData){
+  setRadiusModalVisible(childData);
+}
 
 function returnCountyImage(name){
   switch(name) {
