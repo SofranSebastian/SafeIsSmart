@@ -5,12 +5,23 @@ import MapView, {Marker} from 'react-native-maps';
 import * as Location from 'expo-location';
 import Constants from '../StoredData.js';
 import MapThemes from '../MapThemes.js';
+import ModalCountyDetail from '../components/ModalCountyDetail.js';
+import { Button, Modal, Portal, Provider } from 'react-native-paper';
+
 
 
 
 
 export default function HeatMap() {
 
+
+  const [visible, setVisible] = useState(false);
+  
+
+const hideModal = () => setVisible(false);
+const showModal = () => setVisible(true);
+
+const [data_for_modal, setDataForModal] = useState({});
 const [date_gasite, setDate] = useState(false);
 const [listaJudete, setListaJudete] = useState(Constants.listaJd);
 const [userLat, setUserLat] = useState(0);
@@ -34,7 +45,7 @@ async function getUserLocation(){
 // async function getAndSetCountysLocation(){
 //   let clonaJudete = listaJudete;
 //   for(let i = 0; i < clonaJudete.length; i++){
-//     let rez = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${clonaJudete[i].county}&key=AIzaSyBfNY8PLLAhERzcPK2aBt4rTp9MAMQ5gkQ`);
+//     let rez = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${clonaJudete[i].county}&key=AIzaSyD1sWqK616lW_M7oqHgBK4yRzhfgd1neoA`);
 //     let jsonF = await rez.json();
 //     clonaJudete[i]['location'] = jsonF.results[0].geometry.location;
 
@@ -74,6 +85,20 @@ async function getData(){
   setDate(true);
 }
 
+function prepareDataForModal(judet){
+  let judetDataObj = {};
+
+  judetDataObj.total_county = judet.total_county;
+  judetDataObj.total_dead = judet.total_dead;
+  judetDataObj.total_healed = judet.total_healed;
+
+  setDataForModal(judetDataObj);
+  
+  setTimeout(()=>{},1000);
+
+  showModal(true);
+}
+
 useEffect(()=>{getData()},[date_gasite]);
 
 
@@ -104,12 +129,18 @@ useEffect(()=>{getData()},[date_gasite]);
           }
           } 
           key={judet.county_code}
-          pinColor='purple'
           title={judet.county}
-          onPress={() => {console.log(judet.total_county, judet.total_healed, judet.total_dead)}}
+          onPress={() => prepareDataForModal(judet)}
 
           >
-
+            <View style={{  backgroundColor:`rgba(50, 0,${judet.total_county%200}, 1)`, 
+                            height:20,
+                            width:20,
+                            borderRadius:30,
+                           }}
+            >
+              
+            </View>
           </MapView.Marker>
         ))
       }
@@ -117,6 +148,20 @@ useEffect(()=>{getData()},[date_gasite]);
 
 
       </MapView>
+      <Provider>
+        <Portal>
+          <Modal  visible={visible} 
+                  onDismiss={hideModal} 
+                  contentContainerStyle={{backgroundColor: 'white', alignItems:'center'}}
+          >
+            <View style={{backgroundColor:'red'}}>
+                  <Text>Total cases: {data_for_modal.total_county}</Text>
+                  <Text>Total healed: {data_for_modal.total_healed}</Text>
+                  <Text>Total dead: {data_for_modal.total_dead}</Text>
+            </View>
+          </Modal>
+        </Portal>
+      </Provider>
     </View>
   );
 }else{
@@ -141,6 +186,7 @@ const styles = StyleSheet.create({
   mapStyle: {
     width:'100%', 
     height:'100%', 
-    alignSelf:'center'
+    alignSelf:'center',
+    zIndex:-1
   }
 });

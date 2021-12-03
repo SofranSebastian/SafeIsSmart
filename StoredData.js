@@ -432,4 +432,6 @@ static listaJd = [
       "total_healed": 0,
     }
   ]
+
+  static apiKey = "AIzaSyD1sWqK616lW_M7oqHgBK4yRzhfgd1neoA"
 }
