@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { TouchableOpacity,  Linking, Text, View, Image, Platform  } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph, List } from 'react-native-paper';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { Text, View  } from 'react-native';
+import { Avatar, Button, Card } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 async function deleteFavouriteHospital( name ){

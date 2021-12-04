@@ -1,9 +1,6 @@
 import React from 'react';
-
 import { StyleSheet } from 'react-native';
-
 import AppMainStack from './routes/routes';
-
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 

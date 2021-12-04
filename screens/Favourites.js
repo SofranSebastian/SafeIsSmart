@@ -1,9 +1,6 @@
 
 import React, {useEffect, useState, useRef} from 'react';
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
-import Constants from '../StoredData.js';
-import { Button, Modal, Portal, Provider, Avatar } from 'react-native-paper';
-import NavigationScreen from './NavigationScreen.js';
+import { Text, View, Image, FlatList } from 'react-native';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import CardFavourite from '../components/CardFavourite.js';
 import Loading from '../components/Loading.js';

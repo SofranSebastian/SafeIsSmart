@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { TouchableOpacity,  Linking, Text, View, Image, Platform, useWindowDimensions , Alert } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph, List } from 'react-native-paper';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { TouchableOpacity,  Linking, Text, View, Platform, Alert } from 'react-native';
+import { Avatar, Button, Card, List } from 'react-native-paper';
+import { Rating } from 'react-native-ratings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
