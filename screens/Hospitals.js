@@ -1,9 +1,12 @@
 
 import React, {useEffect, useState, useRef} from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
 import Constants from '../StoredData.js';
 import { Button, Modal, Portal, Provider, Avatar } from 'react-native-paper';
 import NavigationScreen from './NavigationScreen.js';
+import StickyParallaxHeader from 'react-native-sticky-parallax-header';
+import CardHospital from '../components/CardHospital.js';
+
 
 export default function Hospitals({route, navigation}){
 
@@ -48,7 +51,7 @@ export default function Hospitals({route, navigation}){
         for(let spital of jsonSpitale.results){
             let newSpital = {}; 
             let hospLat = spital.geometry.location.lat; 
-            let hospLon = spital.geometry.location.lon;
+            let hospLon = spital.geometry.location.lng;
             let hospitalCoordinates = {
                 latitude : hospLat,
                 longitude: hospLon
@@ -92,9 +95,52 @@ export default function Hospitals({route, navigation}){
 
     if(listaSpitale.length !== 0){
         return(
-            <View style={{marginTop:100}}>
-                <Text> {listaSpitale[0].adress} </Text>
-            </View>
+            <StickyParallaxHeader   headerType="AvatarHeader" 
+                                    backgroundColor='#094AA8'
+                                    rightTopIcon={{}}
+                                    leftTopIcon={require("../assets/back.png")}
+                                    leftTopIconOnPress={ () => navigation.reset({
+                                        index: 0,
+                                        routes: [{ name: 'HeatMap' }]
+                                   }) }
+                                    image={{}}
+                                    parallaxHeight={200}
+                                    foreground={    ()  =>
+                                                        <View style={{flex:1, padding:10, borderRadius:0}}>
+                                                            <View style={{ alignItems:'center'}}>
+                                                                <Image source={require("../assets/navigation_syringe.png")} style={{width:300, height:100}} resizeMode="contain" />
+                                                            </View>
+                                                            <Text style={{fontSize:26, fontFamily:'bold-font', textAlign:'left', color:"white", marginTop:'5%'}}>
+                                                                MEDICAL SUPPORT
+                                                            </Text>
+                                                        </View>
+                                    }
+                                    title="MEDICAL SUPPORT"
+                                    children={  
+                                        <View style={{flex:1, backgroundColor:"white"}}>
+                                                <FlatList   data={listaSpitale}
+                                                            renderItem={
+                                                                ({ item }) => 
+                                                                    <CardHospital   title={item.placeName}
+                                                                                   
+                                                                                    userLat = {userLat}
+                                                                                    userLon = {userLon}
+                                                                                    destLat = {item.coordinates.latitude}
+                                                                                    destLon = {item.coordinates.longitude}
+
+                                                                                    navigation={navigation}
+                                                                    />
+                                                                
+                                                            }
+                                                            
+                                                            keyExtractor={item => item.key} 
+                                                /> 
+                                            </View>
+                                                
+                                                    // listaSpitale.map( (item) => ( <View key={item.key}><Text>{item.placeName}</Text></View> ) )
+                                                
+                                            }
+            />
         )
     }else {
         return(
