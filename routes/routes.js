@@ -6,6 +6,7 @@ import NavigationScreen from '../screens/NavigationScreen.js';
 
 import HeatMap from "../screens/HeatMap"
 import Hospitals from '../screens/Hospitals.js';
+import Favourites from '../screens/Favourites.js';
 
 const MainStack = createNativeStackNavigator();
 
@@ -39,7 +40,16 @@ function AppMainStack() {
                                         })
                                     }
 
-                />              
+                />
+                <MainStack.Screen   name = "Favourites"
+                    component = { Favourites }
+                    options = {
+                        ({ navigation, route }) => ({
+                            headerShown: false,
+                        })
+                    }
+
+                />                 
             </MainStack.Navigator>
         </NavigationContainer>
     )

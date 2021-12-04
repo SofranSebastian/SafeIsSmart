@@ -13,6 +13,10 @@ export default class BottomNavigator extends React.Component {
         this.props.heatMapCallback(true);
     }
 
+    sendDataHelp(){
+        this.props.helpCallback(true);
+    }
+
     render() {
         return (
             <View style={{ position:'absolute', bottom:0, left:0, right:0, top:0}}> 
@@ -46,23 +50,23 @@ export default class BottomNavigator extends React.Component {
                                 }}>
                         <View style={{marginLeft:"15%", height: 60, justifyContent:'center',alignItems:'center'}}>
                             <IconButton
-                                icon="account-circle"
+                                icon="star"
                                 color={'white'}
                                 size={25}
-                                onPress={() => this.props.navigation.navigate("Profile")}
+                                onPress={() => this.props.navigation.navigate("Favourites")}
                                 style={{padding:0, margin:0}}
                             />
-                            <Text style={{color:'white', fontFamily:'normal-font', fontSize:10, fontWeight:"bold"}}>PROFILE</Text>
+                            <Text style={{color:'white', fontFamily:'normal-font', fontSize:10, fontWeight:"bold"}}>FAVOURITES</Text>
                         </View>
                         <View style={{marginRight:"12%", height: 60, justifyContent:'center', alignItems:'center'}}>
                             <IconButton
-                                icon="bell"
+                                icon="information"
                                 color={'white'}
                                 size={25}
-                                onPress={() => console.log('Pressed')}
+                                onPress={() => this.sendDataHelp()}
                                 style={{padding:0, margin:0}}
                             />
-                            <Text style={{color:'white', fontFamily:'normal-font', fontWeight:"bold", fontSize:10}}>NOTIFICATIONS</Text>
+                            <Text style={{color:'white', fontFamily:'normal-font', fontWeight:"bold", fontSize:10}}>HELP</Text>
                         </View>
                 </View>
             </View>

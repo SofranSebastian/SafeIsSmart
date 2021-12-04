@@ -1,14 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState, useRef} from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import MapView, {Marker, Polyline} from 'react-native-maps';
 import * as Location from 'expo-location';
 import Constants from '../StoredData.js';
 import MapThemes from '../MapThemes.js';
-import { Button, Modal, Portal, Provider, Avatar } from 'react-native-paper';
+import { Button, Modal, Portal, Provider, Avatar, List} from 'react-native-paper';
 import NavigationScreen from './NavigationScreen.js';
 import BottomTabNavigator from '../components/BottomTabNavigator.js';
 import Slider from '@react-native-community/slider';
+import Loading from '../components/Loading.js';
 
 export default function HeatMap({route, navigation}) {
 
@@ -19,6 +20,10 @@ const showRadiusModal = () => setRadiusModalVisible(true);
 const [visible, setVisible] = useState(false);
 const hideModal = () => setVisible(false);
 const showModal = () => setVisible(true);
+
+const [helpModalVisible, setHelpModalVisible] = useState(false);
+const hideHelpModal = () => setHelpModalVisible(false);
+const showHelpModal = () => setHelpModalVisible(true);
 
 const [data_for_modal, setDataForModal] = useState({});
 const [date_gasite, setDate] = useState(false);
@@ -256,17 +261,77 @@ useEffect(()=>{getData()},[date_gasite]);
           </Modal>
         </Portal>
       </Provider>
+      <Provider>
+        <Portal>
+          <Modal  visible={helpModalVisible} 
+                  onDismiss={hideHelpModal} 
+                  contentContainerStyle={{backgroundColor: 'white', alignItems:'center', width:'80%', marginHorizontal:'10%',height: 500, borderRadius:20, marginTop:'5%'}}
+          >
+            <View style={{flex:1}}>
+              <View style={{ flex:0.2, justifyContent:'center', alignItems:'center'}}>
+                    <Text style={{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"}}>HELP</Text>
+              </View>
+              <ScrollView style={{ flex:0.5, width:300 }} contentContainerStyle={{justifyContent:'space-between'}}>
+                  <List.Section>
+                    <List.Accordion
+                        title="Heat Map"
+                        titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
+                        left={props => <List.Icon {...props} icon="map-legend" color="#094AA8" />}>
+                        <List.Item title={"as"} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                    </List.Accordion>
+
+                    <View style={{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%', marginVertical:'2%'}}></View>
+
+                    <List.Accordion
+                        title="Hospitals"
+                        titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
+                        left={props => <List.Icon {...props} icon="hospital" color="#094AA8" />}>
+                        <List.Item title={"as"} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                    </List.Accordion>
+
+                    <View style={{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%', marginVertical:'2%'}}></View>
+
+                    <List.Accordion
+                        title="Navigation"
+                        titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
+                        left={props => <List.Icon {...props} icon="navigation" color="#094AA8" />}>
+                        <List.Item title={"as"} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                    </List.Accordion>
+
+                    <View style={{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%', marginVertical:'2%'}}></View>        
+
+                    <List.Accordion
+                        title="Favourites"
+                        titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
+                        left={props => <List.Icon {...props} icon="star" color="#094AA8" />}>
+                        <List.Item title={"as"} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                    </List.Accordion>
+                  </List.Section>
+              </ScrollView>
+              <View style={{flex:0.3, justifyContent:'space-around', alignItems:'center'}}>
+                <Button icon="close-circle-outline" size={20}  mode='contained' color="#094AA8" onPress={()=>hideHelpModal()}>
+                  DISMISS
+                </Button>
+              </View>
+            </View>
+          </Modal>
+        </Portal>
+      </Provider>
       <BottomTabNavigator navigation={navigation} 
                           //data= {{ userLat:userLat, userLon:userLon, radius: 5  }}
                           heatMapCallback = { (data) => showModalForRadius(data) }
+                          helpCallback = { (data) => showModalForHelp(data) }
       />
     </View>
   );
 }else{
 
   return (
-    <View style={styles.bigview}>
-      <Text>Se cauta datele</Text>
+    <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'white'}}>
+      <Loading isDataLoading={true}/>
+      <Text style={{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:'#094AA8', marginTop:'5%', padding:10}}>
+          Loading
+      </Text>
     </View>
   );
 
@@ -275,6 +340,10 @@ useEffect(()=>{getData()},[date_gasite]);
 
 function showModalForRadius(childData){
   setRadiusModalVisible(childData);
+}
+
+function showModalForHelp(childData){
+  setHelpModalVisible(childData);
 }
 
 function returnCountyImage(name){
