@@ -22,6 +22,7 @@
     "react-native-maps": "^0.29.4",
     "react-native-maps-directions": "^1.8.0",
     "react-native-paper": "^4.10.1",
+    "react-native-ratings": "^8.1.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.0",
     "react-native-sticky-parallax-header": "^0.4.1",

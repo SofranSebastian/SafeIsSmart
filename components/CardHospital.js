@@ -1,23 +1,29 @@
 import * as React from 'react';
-import { TouchableOpacity,  Linking, Text, View, Image } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { TouchableOpacity,  Linking, Text, View, Image, Platform  } from 'react-native';
+import { Avatar, Button, Card, Title, Paragraph, List } from 'react-native-paper';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 
-function returnImageUrl( category ){
-    if( category === "JavaScript" ){
-        return {uri:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/480px-Unofficial_JavaScript_logo_2.svg.png"}
-    }else if( category === "C" ){
-        return {uri:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/695px-C_Programming_Language.svg.png"}
-    }else if( category === "Java" ){
-        return {uri:"https://wallpapercave.com/wp/wp7250034.jpg"}
+function dialCall( pN ) {
+ 
+    let phoneNumber = '';
+ 
+    if (Platform.OS === 'android') {
+      phoneNumber = 'tel:' + pN;
     }
-}
+    else {
+      phoneNumber = 'telprompt:${1234567890}';
+    }
+ 
+    Linking.openURL(phoneNumber);
+  };
 
 function CardHospital(props){
+
+
     return(
             <Card style={{  width:"95%",
                             marginLeft:'2%',
                             marginVertical:'2%',
-                            height:150,
                             borderRadius:15,
                             shadowColor: "#000",
                             shadowOffset: {
@@ -30,14 +36,8 @@ function CardHospital(props){
                             elevation: 3,
                         }}
             >
-                {/* <Card.Title title={ props.title.toUpperCase()  +  " 💰" + props.cost + "p" }
-                            titleStyle={{ fontSize:12, fontFamily:'normal-font', fontWeight:'bold', lineHeight:15,  color:"#262731" }}
-                            titleNumberOfLines={4}
-                            subtitleStyle={{ fontSize:10, fontFamily:'normal-font', color:"#262731" }}
-                /> */}
                 <View style={{
                             flex:1,
-                            height:125,
                             borderRadius:15,
                         }}
                 >
@@ -47,57 +47,143 @@ function CardHospital(props){
                                     alignItems:'center',
                                 }}>
                         <View style={{ marginLeft:'2%', flexDirection:"row", alignItems:'center'}}>
-                            <Image source={returnImageUrl( (props.category) )}  style={{width:13, height:13}}/>
 
-                            <Text numberOfLines={1} style={{ marginLeft:'2%',fontSize:12, fontFamily:'normal-font', fontWeight:'bold', lineHeight:15,  color:"#262731" }}>
+                            <Text numberOfLines={1} style={{ marginLeft:'2%',fontSize:16, fontFamily:'medium-font',  color:"#094AA8" }}>
                                 { props.title.toUpperCase() }
                             </Text>
+                            
                         </View>
                     </View>
-                    <View style={{  flex:0.4,
+                    <View style={{  flex:0.4, marginTop:'2%'
                                 }}>
-                        <Text style={{ marginLeft:'4%', fontSize:12, fontFamily:'normal-font', lineHeight:15,  color:"#262731" }}>
+                        <Text style={{ marginLeft:'4%', fontSize:12, fontFamily:'normal-font', lineHeight:15,  color:"#094AA8" }}>
                             • Description
                         </Text>
-                        <Text numberOfLines={3} style={{ marginHorizontal:'4%', fontSize:10, fontFamily:'normal-font', lineHeight:15,  color:"#262731" }}>
-                            { props.description }
-                        </Text>
+                        <View style={{marginLeft:'6%', marginTop:'2%'}}>
+
+                            <View style={{flexDirection:'row', alignItems:'center'}}>
+                                <Avatar.Icon icon="map-marker" color={ 'white'}  backgroundColor={"#094AA8"} size={25} />
+                                <View style={{marginLeft:'1%'}}>
+                                    <Text style={{fontSize:12, fontFamily:'bold-font', color:"#094AA8"}} >
+                                        {props.adress}
+                                    </Text>
+                                    <Text style={{fontSize:10, fontFamily:'normal-font', color:"#094AA8"}} >Adress</Text>
+                                </View>
+                            </View>
+
+                            <View style={{flexDirection:'row'}}>
+                                <View style={{flexDirection:'row', alignItems:'center', marginTop:'2%'}}>
+                                    <Avatar.Icon icon="thumb-up" color={ 'white'}  backgroundColor={"#094AA8"} size={25} />
+                                    <View style={{marginLeft:'1%'}}>
+                                        <Text style={{fontSize:12, fontFamily:'bold-font', color:"#094AA8"}} >
+                                            {props.rating}   
+                                            <Rating
+                                                type='star'
+                                                ratingCount={5}
+                                                imageSize={10}
+                                                readonly
+                                                startingValue={props.rating}
+                                                />
+                                        </Text>
+                                        <Text style={{fontSize:10, fontFamily:'normal-font', color:"#094AA8"}} >Rating</Text>
+                                    </View>
+                                </View>
+                                { props.website !== undefined ?
+                                <View style={{flexDirection:'row', alignItems:'center', marginTop:'2%', marginLeft:'6%'}}>
+                                    <Avatar.Icon icon="web" color={ 'white'}  backgroundColor={"#094AA8"} size={25} />
+                                    <TouchableOpacity style={{marginLeft:'1%'}} onPress={ () => {
+                                                                                    Linking.openURL(props.website)
+                                                                                    .catch(err => {
+                                                                                        console.error("Failed opening page because: ", err)
+                                                                                        alert('Failed to open page')
+                                                                                    })}}
+                                    >
+                                        <Text style={{fontSize:12, fontFamily:'bold-font', color:"#094AA8"}} >
+                                            Check website   
+                                        </Text>
+                                        <Text style={{fontSize:10, fontFamily:'normal-font', color:"#094AA8"}} >Press to open in browser</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                :
+                                null
+                                }
+                            </View>
+
+                            <View style={{marginRight:'6%', marginTop:'4%'}}>
+                                <List.Section>
+                                    <List.Accordion
+                                        title="Check schedule"
+                                        titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
+                                        left={props => <List.Icon {...props} icon="clock-outline" color="#094AA8" />}>
+                                        <List.Item title={props.orar[0]} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                                        <List.Item title={props.orar[1]} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                                        <List.Item title={props.orar[2]} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                                        <List.Item title={props.orar[3]} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                                        <List.Item title={props.orar[4]} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                                        <List.Item title={props.orar[5]} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                                        <List.Item title={props.orar[6]} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                                        <List.Item title={props.orar[7]} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                                    </List.Accordion>
+                                </List.Section>
+                            </View>
+                            { props.reviews.length > 0 ?
+                            <View style={{marginRight:'6%', marginTop:'2%'}}>
+                                <List.Section>
+                                    <List.Accordion
+                                        title="Check reviews"
+                                        titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
+                                        left={props => <List.Icon {...props} icon="file-find" color="#094AA8" />}>
+                                        <List.Item title={props.reviews[0].text } titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}} titleNumberOfLines={20}/>
+                                        { props.reviews.length > 1 ?
+                                            <List.Item title={props.reviews[1].text } titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}} titleNumberOfLines={20}/>
+                                            :
+                                            null
+                                        }
+                                        { props.reviews.length > 2 ?
+                                            <List.Item title={props.reviews[2].text } titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}} titleNumberOfLines={20}/>
+                                            :
+                                            null
+                                        }
+                                    </List.Accordion>
+                                </List.Section>
+                            </View>
+                            :
+                            <View style={{marginRight:'6%'}}>
+                                <List.Section>
+                                    <List.Accordion
+                                        title="No reviews available"
+                                        titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
+                                        left={props => <List.Icon {...props} icon="file-find" color="#094AA8" />}>
+                                    </List.Accordion>
+                                </List.Section>
+                            </View>
+                            }
+
+                        </View>
                     </View>
-                    <View style={{  flex:0.2,
+                    <View style={{  flex:0.2,marginTop:'4%'
                                 }}>
                          
                     </View>
-                    <View style={
-                            props.needToSeeIfItIsResolved === true ? 
-                                {   flex:0.25,
-                                    width:'100%',
-                                    justifyContent:'space-between',
-                                    alignItems:'center',
-                                    flexDirection:'row' 
-                                }
+                    <View style={ props.phoneNumber !== undefined ?
+                            { flex:0.3, alignItems:'flex-end', justifyContent:'space-between', flexDirection:'row' } 
                             :
-                            {   flex:0.25,
-                                alignItems:'flex-end',
-                            }
+                            { flex:0.3, alignItems:'flex-end', justifyContent:'flex-end', flexDirection:'row' } 
                         }
-                    >
-                            { props.needToSeeIfItIsResolved === true ?
-                                    <View>
-                                        <Text style={
-                                            props.isResolved === true ? 
-                                                { fontSize:10, fontFamily:'normal-font', fontWeight:'bold', color:"green", marginLeft:'8%' }
-                                            :
-                                                { fontSize:10, fontFamily:'normal-font', fontWeight:'bold', color:"orange", marginLeft:'8%' }
-                                        }>
-                                            { props.isResolved === true ?
-                                                "RESOLVED"  
-                                                :
-                                                "IN PROGRESS"
-                                            }
-                                        </Text>
-                                    </View>
-                                :
-                                null
+                    >   
+                            { props.phoneNumber !== undefined ?
+                                <Button   icon={'phone'}
+                                            onPress={() =>  dialCall(props.phoneNumber)
+                                                    }
+                                            color="#094AA8"
+                                            labelStyle={{fontSize:9}}
+                                            mode='contained'
+                                            style={{marginLeft:'6%', marginBottom:'4%'}}
+                                    >
+                                    CALL US
+                                </Button>
+                            :
+                              null
                             }
                             <Button   icon={'chevron-right'}
                                         onPress={() =>props.navigation.navigate("NavigationScreen",{  
@@ -108,11 +194,10 @@ function CardHospital(props){
                                                                                                     }
                                                                                 )
                                                 }
-                                        color="#262731"
-                                        labelStyle={{fontSize:8}}
-                                        contentStyle={{width:60, height: 20}}
+                                        color="#094AA8"
+                                        labelStyle={{fontSize:9}}
                                         mode='contained'
-                                        style={{marginRight:'2%'}}
+                                        style={{marginRight:'6%', marginBottom:'4%'}}
                                 >
                                 NAVIGATE
                             </Button>
