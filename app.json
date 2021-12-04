@@ -29,7 +29,7 @@
           "apiKey": "AIzaSyD1sWqK616lW_M7oqHgBK4yRzhfgd1neoA"
         }
       },
-      "package": "host.exp.exponent"
+      "package": "com.SafeIsSmart.SafeIsSmart"
     },
     "web": {
       "favicon": "./assets/favicon.png"
