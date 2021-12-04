@@ -8,6 +8,7 @@ import Constants from '../StoredData.js';
 import MapThemes from '../MapThemes.js';
 import { Button, Modal, Portal, Provider, Icon, Avatar, IconButton } from 'react-native-paper';
 import {Audio} from 'expo-av';
+import Loading from '../components/Loading.js';
 
 
 
@@ -219,7 +220,12 @@ export default function NavigationScreen({route, navigation}) {
                       else
                       {
                         return(
-                          <View><Text>Se incarca sunetul</Text></View>
+                          <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'white'}}>
+                            <Loading isDataLoading={true}/>
+                            <Text style={{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:'#094AA8', marginTop:'5%', padding:10}}>
+                                Loading
+                            </Text>
+                        </View>
                         )
                       }
 }
