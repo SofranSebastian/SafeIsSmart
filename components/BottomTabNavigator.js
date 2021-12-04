@@ -53,7 +53,9 @@ export default class BottomNavigator extends React.Component {
                                 icon="star"
                                 color={'white'}
                                 size={25}
-                                onPress={() => this.props.navigation.navigate("Favourites")}
+                                onPress={() => this.props.navigation.navigate("Favourites",{userLat: this.props.userLat,
+                                                                                            userLon: this.props.userLon
+                                                                            })}
                                 style={{padding:0, margin:0}}
                             />
                             <Text style={{color:'white', fontFamily:'normal-font', fontSize:10, fontWeight:"bold"}}>FAVOURITES</Text>
