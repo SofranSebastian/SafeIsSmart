@@ -158,43 +158,6 @@ useEffect(()=>{getData()},[date_gasite]);
 
 
       </MapView>
-      <Provider>
-        <Portal>
-          <Modal  visible={visible} 
-                  onDismiss={hideModal} 
-                  contentContainerStyle={{backgroundColor: 'white', alignItems:'center', width:'80%', marginHorizontal:'10%',height: 450, borderRadius:20, marginTop:'5%'}}
-          >
-            <View style={{flex:1}}>
-            <View style={{flex:0.3, alignItems:'center', justifyContent:'center'}}>
-              <Image source={{uri:returnCountyImage(data_for_modal.name)}} style={{width:130, height:130}} resizeMode='contain'/>
-            </View>
-            <View style={{ flex:0.5, justifyContent:'space-around'}}>
-                  <Text style={{fontSize:24, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"}}>{data_for_modal.name}</Text>
-                  <View style={{flexDirection:'column', marginVertical:"2%"}}>
-                    <View style={{alignItems:'center', justifyContent:'center', marginVertical:"4%" }}>
-                      <Avatar.Icon size={24} icon="virus" backgroundColor="#094AA8"/>
-                      <Text style={{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8"}}>Total cases: {data_for_modal.total_county}</Text>
-                    </View>
-                    <View style={{alignItems:'center', justifyContent:'center', marginVertical:"4%"}}>
-                      <Avatar.Icon size={24} icon="bottle-tonic-plus-outline" backgroundColor="#094AA8"/>
-                      <Text style={{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8"}}>Total recovered: {data_for_modal.total_healed}</Text>
-                    </View> 
-                    <View style={{alignItems:'center', justifyContent:'center', marginVertical:"4%"}}>
-                      <Avatar.Icon size={24} icon="coffin" backgroundColor="#094AA8"/>
-                      <Text style={{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8"}}>Total deaths: {data_for_modal.total_dead}</Text>
-                    </View>
-                  </View>
-            </View>
-            <View style={{flex:0.2, justifyContent:'center', alignItems:'center'}}>
-              <Button icon="close-circle-outline" size={20}  mode='contained' color="#094AA8" onPress={()=>hideModal()}>
-                 DISMISS
-              </Button>
-            </View>
-            </View>
-          </Modal>
-        </Portal>
-      </Provider>
-
       <View style={{position:'absolute', top:'5%', right:10, height: 125, width:170, backgroundColor:'white', borderRadius:20, alignItems:'center',shadowColor: "#000",
                             shadowOffset: {
                                 width: 4,
@@ -253,6 +216,42 @@ useEffect(()=>{getData()},[date_gasite]);
                   DISMISS
                 </Button>
               </View>
+            </View>
+          </Modal>
+        </Portal>
+      </Provider>
+      <Provider>
+        <Portal>
+          <Modal  visible={visible} 
+                  onDismiss={hideModal} 
+                  contentContainerStyle={{backgroundColor: 'white', alignItems:'center', width:'80%', marginHorizontal:'10%',height: 450, borderRadius:20, marginTop:'5%'}}
+          >
+            <View style={{flex:1}}>
+            <View style={{flex:0.3, alignItems:'center', justifyContent:'center'}}>
+              <Image source={{uri:returnCountyImage(data_for_modal.name)}} style={{width:130, height:130}} resizeMode='contain'/>
+            </View>
+            <View style={{ flex:0.5, justifyContent:'space-around'}}>
+                  <Text style={{fontSize:24, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"}}>{data_for_modal.name}</Text>
+                  <View style={{flexDirection:'column', marginVertical:"2%"}}>
+                    <View style={{alignItems:'center', justifyContent:'center', marginVertical:"4%" }}>
+                      <Avatar.Icon size={24} icon="virus" backgroundColor="#094AA8"/>
+                      <Text style={{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8"}}>Total cases: {data_for_modal.total_county}</Text>
+                    </View>
+                    <View style={{alignItems:'center', justifyContent:'center', marginVertical:"4%"}}>
+                      <Avatar.Icon size={24} icon="bottle-tonic-plus-outline" backgroundColor="#094AA8"/>
+                      <Text style={{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8"}}>Total recovered: {data_for_modal.total_healed}</Text>
+                    </View> 
+                    <View style={{alignItems:'center', justifyContent:'center', marginVertical:"4%"}}>
+                      <Avatar.Icon size={24} icon="coffin" backgroundColor="#094AA8"/>
+                      <Text style={{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8"}}>Total deaths: {data_for_modal.total_dead}</Text>
+                    </View>
+                  </View>
+            </View>
+            <View style={{flex:0.2, justifyContent:'center', alignItems:'center'}}>
+              <Button icon="close-circle-outline" size={20}  mode='contained' color="#094AA8" onPress={()=>hideModal()}>
+                 DISMISS
+              </Button>
+            </View>
             </View>
           </Modal>
         </Portal>
