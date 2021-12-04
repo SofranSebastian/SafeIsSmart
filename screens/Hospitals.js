@@ -71,7 +71,7 @@ export default function Hospitals({route, navigation}){
             let moreData = await fetch (url_for_more_data);
             let moreDataJsonFormat = await moreData.json();
 
-            // newSpital['phoneNumber'] = moreDataJsonFormat.result.formatted_phone_number; 
+            newSpital['phoneNumber'] = moreDataJsonFormat.result.formatted_phone_number; 
             newSpital['website'] = moreDataJsonFormat.result.website;
             newSpital['orar'] = moreDataJsonFormat.result.opening_hours !== undefined? moreDataJsonFormat.result.opening_hours.weekday_text : "";
             newSpital['reviews'] = msgCheck(moreDataJsonFormat.result.reviews) ? moreDataJsonFormat.result.reviews : "NaN";
@@ -127,8 +127,14 @@ export default function Hospitals({route, navigation}){
                                                                                     userLon = {userLon}
                                                                                     destLat = {item.coordinates.latitude}
                                                                                     destLon = {item.coordinates.longitude}
-
+                                                                                    totalRates = {item.totalRates}
+                                                                                    rating = {item.rating}
+                                                                                    adress = {item.adress}
                                                                                     navigation={navigation}
+                                                                                    orar = { item.orar }
+                                                                                    reviews = { item.reviews }
+                                                                                    website = { item.website }
+                                                                                    phoneNumber = { item.phoneNumber }
                                                                     />
                                                                 
                                                             }
