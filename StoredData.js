@@ -435,6 +435,26 @@ static listaJd = [
 
   static apiKey = "AIzaSyD1sWqK616lW_M7oqHgBK4yRzhfgd1neoA";  
 
+  static danger = [
+    {"latitude" : 45.752472, "longitude": 21.250633}, 
+    {"latitude": 45.75103778786551, "longitude":21.25231399808231},
+    {"latitude":45.74048065068919,  "longitude": 21.25635295025635},
+    {"latitude": 45.721580227653206,  "longitude": 21.236586703761215},
+    {"latitude":45.7388450907034,  "longitude":21.206770253907106 },
+    {"latitude": 45.73740848982446, "longitude":  21.199962766110712 },
+    {"latitude": 45.777266452790336,  "longitude": 21.22081124041288 },
+    {"latitude": 45.77858579742081, "longitude":21.22051544225792 },
+    {"latitude": 45.7514075474837, "longitude":21.238423330533095 },
+    {"latitude": 45.754149875560806, "longitude":  21.241554453257002 },
+    {"latitude": 45.73188425710474,  "longitude":21.232616031869643 },
+    {"latitude": 45.77540685608848,  "longitude": 21.213821769247893},
+    {"latitude":45.75311988910217,  "longitude": 21.215706898082292},
+    {"latitude":45.76231529090551,  "longitude":21.260435299927323},
+    {"latitude": 45.76655673150386,  "longitude": 21.242909892152202}
+
+
+  ];
+
   static romPol = [
   {"latitude":46.17556,"longitude":20.72696}, 
   {"latitude":46.18749,"longitude":20.72}, 
