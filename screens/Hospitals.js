@@ -32,7 +32,7 @@ export default function Hospitals({route, navigation}){
         }
     
         return ok;
-      }
+    }
 
       
     useEffect(()=>{fetchSpitale()}, [spitaleGasite]);
