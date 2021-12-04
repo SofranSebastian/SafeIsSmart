@@ -8,6 +8,7 @@ import MapThemes from '../MapThemes.js';
 import { Button, Modal, Portal, Provider, Avatar } from 'react-native-paper';
 import NavigationScreen from './NavigationScreen.js';
 import BottomTabNavigator from '../components/BottomTabNavigator.js';
+import Slider from '@react-native-community/slider';
 
 export default function HeatMap({route, navigation}) {
 
@@ -24,6 +25,7 @@ const [date_gasite, setDate] = useState(false);
 const [listaJudete, setListaJudete] = useState(Constants.listaJd);
 const [userLat, setUserLat] = useState(0);
 const [userLon, setUserLon] = useState(0);
+const [radius, setRadius] = useState(1);
 const _map = useRef(null)
 
 async function getUserLocation(){
@@ -193,7 +195,7 @@ useEffect(()=>{getData()},[date_gasite]);
         </Portal>
       </Provider>
 
-      <View style={{position:'absolute', top:'10%', right:10, height: 125, width:170, backgroundColor:'white', borderRadius:20, alignItems:'center',shadowColor: "#000",
+      <View style={{position:'absolute', top:'5%', right:10, height: 125, width:170, backgroundColor:'white', borderRadius:20, alignItems:'center',shadowColor: "#000",
                             shadowOffset: {
                                 width: 4,
                                 height: 3,
@@ -222,24 +224,35 @@ useEffect(()=>{getData()},[date_gasite]);
       <Provider>
         <Portal>
           <Modal  visible={radiusModalVisible} 
-                  onDismiss={hideModal} 
-                  contentContainerStyle={{backgroundColor: 'white', alignItems:'center', width:'80%', marginHorizontal:'10%',height: 450, borderRadius:20}}
+                  onDismiss={()=> {hideRadiusModal(), setRadius(1)}} 
+                  contentContainerStyle={{backgroundColor: 'white', alignItems:'center', width:'80%', marginHorizontal:'10%',height: 300, borderRadius:20, marginTop:'5%'}}
           >
             <View style={{flex:1}}>
-            <View style={{flex:0.3, alignItems:'center', justifyContent:'center'}}>
-              
-            </View>
-            <View style={{ flex:0.5, justifyContent:'space-around'}}>
-                  <Text style={{fontSize:24, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"}}>SELECT RADIUS</Text>
-            </View>
-            <View style={{flex:0.2, justifyContent:'center', alignItems:'center'}}>
-              <Button icon="navigation" size={20}  mode='contained' color="#094AA8" onPress={()=> navigation.navigate('NavigationScreen',{ userLat:userLat, userLon:userLon, radius: 5  })}>
-                 NAVIGATE
-              </Button>
-              <Button icon="close-circle-outline" size={15}  mode='text' color="#094AA8" onPress={()=> hideRadiusModal()}>
-                 DISMISS
-              </Button>
-            </View>
+              <View style={{ flex:0.25, justifyContent:'center', alignItems:'center'}}>
+                    <Text style={{fontSize:24, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"}}>SELECT RADIUS</Text>
+                    <Text style={{fontSize:14, fontFamily:'normal-font', textAlign:'center', color:"#094AA8"}}>VALUE IN KILOMETERS</Text>
+              </View>
+              <View style={{ flex:0.4, justifyContent:'center'}}>
+                <Text style={{fontSize:24, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"}}>{radius}</Text>
+                    <Slider
+                      style={{width: 250, height: 60}}
+                      minimumValue={1}
+                      maximumValue={10}
+                      minimumTrackTintColor="#094AA8"
+                      maximumTrackTintColor="#000000"
+                      onValueChange={ ( value ) => setRadius( value ) }
+                      step={1}
+                    /> 
+
+              </View>
+              <View style={{flex:0.35, justifyContent:'space-around', alignItems:'center'}}>
+                <Button icon="magnify" size={20}  mode='contained' color="#094AA8" onPress={()=> navigation.navigate('Hospitals',{ userLat:userLat, userLon:userLon, radius: radius  })}>
+                  SEARCH
+                </Button>
+                <Button icon="close-circle-outline" size={15}  mode='text' color="#094AA8" onPress={()=> {hideRadiusModal(), setRadius(1)}} style={{marginTop:'2%'}}>
+                  DISMISS
+                </Button>
+              </View>
             </View>
           </Modal>
         </Portal>
