@@ -347,7 +347,8 @@ useEffect(()=>{getData()},[date_gasite]);
         </Portal>
       </Provider>
       <BottomTabNavigator navigation={navigation} 
-                          //data= {{ userLat:userLat, userLon:userLon, radius: 5  }}
+                          userLat = {userLat}
+                          userLon = {userLon}
                           heatMapCallback = { (data) => showModalForRadius(data) }
                           helpCallback = { (data) => showModalForHelp(data) }
       />
