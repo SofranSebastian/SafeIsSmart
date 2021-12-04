@@ -127,6 +127,7 @@ export default function Hospitals({route, navigation}){
                                                                                     userLon = {userLon}
                                                                                     destLat = {item.coordinates.latitude}
                                                                                     destLon = {item.coordinates.longitude}
+                                                                                    destName = {item.placeName}
                                                                                     totalRates = {item.totalRates}
                                                                                     rating = {item.rating}
                                                                                     adress = {item.adress}

@@ -190,7 +190,8 @@ function CardHospital(props){
                                                                                                         userLat: props.userLat,
                                                                                                         userLon: props.userLon,
                                                                                                         destLat: props.destLat,
-                                                                                                        destLon: props.destLon
+                                                                                                        destLon: props.destLon,
+                                                                                                        destName: props.destName
                                                                                                     }
                                                                                 )
                                                 }
