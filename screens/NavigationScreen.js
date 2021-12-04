@@ -19,6 +19,7 @@ export default function NavigationScreen({route, navigation}) {
     const [time, changeTime] = useState(0);
     const _map = useRef(null);
 
+
     return(
         <View style={styles.bigview}>
             <MapView
@@ -90,7 +91,10 @@ export default function NavigationScreen({route, navigation}) {
                   </Text>
                 </View>
                 <IconButton   mode='contained' icon='close-circle-outline' color={"white"} size={25} style={{backgroundColor:"#094AA8"}}
-                          onPress={() => navigation.navigate("HeatMap")}
+                          onPress={() => navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'HeatMap' }]
+                       })}
                 />
               </View>
               <View style={{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%', marginTop:'2%'}}></View>
@@ -99,7 +103,7 @@ export default function NavigationScreen({route, navigation}) {
                   <Avatar.Icon icon="clock-outline" color={ 'white'}  backgroundColor={"#094AA8"} size={25} />
                   <View style={{marginLeft:'5%'}}>
                     <Text style={{fontSize:12, fontFamily:'bold-font', color:"#094AA8"}} >
-                      {time > 60 ? (time/60).toFixed(1)  + ' H' : time + " mins"} 
+                      {time > 60 ? (time/60).toFixed(1)  + ' H' : time.toFixed(1) + " mins"} 
                     </Text>
                     <Text style={{fontSize:10, fontFamily:'normal-font', color:"#094AA8"}} >Time</Text>
                   </View>
