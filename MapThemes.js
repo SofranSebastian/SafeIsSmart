@@ -80,7 +80,10 @@ export default class MapThemes {
       "elementType": "geometry.fill",
       "stylers": [
         {
-          "color": "#0054f0"
+          "color": "#e0f1ff"
+        },
+        {
+          "weight": 1
         }
       ]
     },
@@ -93,7 +96,6 @@ export default class MapThemes {
         }
       ]
     }
-  ];
-
+  ]
 
 }
