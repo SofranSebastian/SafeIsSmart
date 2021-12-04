@@ -276,8 +276,13 @@ useEffect(()=>{getData()},[date_gasite]);
                     <List.Accordion
                         title="Heat Map"
                         titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
-                        left={props => <List.Icon {...props} icon="map-legend" color="#094AA8" />}>
-                        <List.Item title={"as"} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                        left={props => <List.Icon {...props} icon="map-legend" color="#094AA8" />}
+                      >
+                        <List.Item  title={"As the upper right corner legend mentions the Heat Map represents the total COVID-19 cases by county. By pressing on a Heat Map Circle you can open a modal containing more detailed information about the county's status."} 
+                                    titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}} titleNumberOfLines={10}
+                                    style={{justifyContent:'flex-start', alignItems:'flex-start'}}
+                                    left={()=>{}}
+                        />
                     </List.Accordion>
 
                     <View style={{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%', marginVertical:'2%'}}></View>
@@ -286,7 +291,13 @@ useEffect(()=>{getData()},[date_gasite]);
                         title="Hospitals"
                         titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
                         left={props => <List.Icon {...props} icon="hospital" color="#094AA8" />}>
-                        <List.Item title={"as"} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                        <List.Item  title={"Represents the list of medical support centers found nearby your location. For each institution you are provided with a detailed set of information."} 
+                                    titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}
+                                    titleNumberOfLines={10}
+                                    style={{justifyContent:'flex-start', alignItems:'flex-start'}}
+                                    left={()=>{}}
+                        />
+                        
                     </List.Accordion>
 
                     <View style={{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%', marginVertical:'2%'}}></View>
@@ -295,8 +306,21 @@ useEffect(()=>{getData()},[date_gasite]);
                         title="Navigation"
                         titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
                         left={props => <List.Icon {...props} icon="navigation" color="#094AA8" />}>
-                        <List.Item title={"as"} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                        <List.Item  title={"By pressing the main button from the bottom navigator you'll open a modal where you can set the radius for the next step which consists of finding all the medical support centers within the selected area."} 
+                                    titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}
+                                    titleNumberOfLines={10}
+                                    style={{justifyContent:'flex-start', alignItems:'flex-start'}}
+                                    left={()=>{}}
+                        />
+                        <List.Item  title={"Once you reach the hospital's list you have the option to navigate to each and everyone of them by pressing the `Navigate` button which will open the navigation system incorporated in the application."} 
+                                    titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}
+                                    titleNumberOfLines={10}
+                                    style={{justifyContent:'flex-start', alignItems:'flex-start'}}
+                                    left={()=>{}}
+                        />
+                    
                     </List.Accordion>
+                    
 
                     <View style={{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%', marginVertical:'2%'}}></View>        
 
@@ -304,7 +328,12 @@ useEffect(()=>{getData()},[date_gasite]);
                         title="Favourites"
                         titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
                         left={props => <List.Icon {...props} icon="star" color="#094AA8" />}>
-                        <List.Item title={"as"} titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}/>
+                        <List.Item  title={"Inside the hospital's list you have the option to set a favourite medical support center by pressing the star button. Once you chose one you can find it in the `Favourites` screen."} 
+                                    titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}
+                                    titleNumberOfLines={10}
+                                    style={{justifyContent:'flex-start', alignItems:'flex-start'}}
+                                    left={()=>{}}
+                        />
                     </List.Accordion>
                   </List.Section>
               </ScrollView>
