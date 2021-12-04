@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { TouchableOpacity,  Linking, Text, View, Image, Platform  } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph, List } from 'react-native-paper';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { TouchableOpacity,  Linking, Text, View, Platform, Alert } from 'react-native';
+import { Avatar, Button, Card, List } from 'react-native-paper';
+import { Rating } from 'react-native-ratings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 function dialCall( pN ) {
  
@@ -64,7 +65,6 @@ async function addFavouriteHospital( name, adress, destLat, destLon ){
 }
 
 function CardHospital(props){
-
 
     return(
             <Card style={{  width:"95%",
@@ -232,7 +232,16 @@ function CardHospital(props){
                               null
                             }
                             <Button   icon={'star'}
-                                        onPress={() => addFavouriteHospital( props.destName, props.adress, props.destLat, props.destLon)
+                                        onPress={() => {    addFavouriteHospital( props.destName, props.adress, props.destLat, props.destLon);    
+                                                            Alert.alert(
+                                                                        "Success",
+                                                                        props.destName + " has been added to your favourites",
+                                                                        [
+                                                                        { text: "OK", onPress: () => console.log() }
+                                                                        ]
+                                                                    );
+                                                            
+                                                        }
                                                 }
                                         color="#094AA8"
                                         labelStyle={{fontSize:9}}
@@ -266,7 +275,6 @@ function CardHospital(props){
                             </Button>
                     </View>
                 </View>
-
             </Card>
     )
 };

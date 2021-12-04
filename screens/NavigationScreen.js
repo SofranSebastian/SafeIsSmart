@@ -1,12 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState, useRef} from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import * as Location from 'expo-location';
 import Constants from '../StoredData.js';
 import MapThemes from '../MapThemes.js';
-import { Button, Modal, Portal, Provider, Icon, Avatar, IconButton } from 'react-native-paper';
+import { Button, Avatar, IconButton } from 'react-native-paper';
 import {Audio} from 'expo-av';
 import Loading from '../components/Loading.js';
 
