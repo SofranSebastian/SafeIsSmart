@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState, useRef} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import * as Location from 'expo-location';
@@ -10,7 +10,7 @@ import { Button, Modal, Portal, Provider, Icon, Avatar, IconButton } from 'react
 
 export default function NavigationScreen({route, navigation}) {
 
-    const {userLat, userLon, destLat, destLon} = route.params;
+    const {userLat, userLon, destLat, destLon, destName} = route.params;
     const [currentPosition, setCurrentPosition] = useState({latitude:userLat, longitude:userLon});
     const [rotation, changeRotation] = useState(false);
     const [mode, setMode] = useState("DRIVING");
@@ -18,6 +18,7 @@ export default function NavigationScreen({route, navigation}) {
     const [distance, changeDistance] = useState(0);
     const [time, changeTime] = useState(0);
     const _map = useRef(null);
+    
 
 
     return(
@@ -36,7 +37,7 @@ export default function NavigationScreen({route, navigation}) {
                  latitude: userLat,
                  longitude: userLon
                },
-               zoom: 10,
+               zoom: 14,
                heading: 0,
                pitch: 0,
                altitude: 1000
@@ -64,6 +65,29 @@ export default function NavigationScreen({route, navigation}) {
           }}
         />
 
+        <MapView.Marker 
+        coordinate={{latitude: destLat, longitude: destLon}}
+        title = {destName}
+        key = {destLat}
+        >
+          <Image source={require('../assets/destination_icon.png')} style={{width:25, height:25}} resizeMode="contain" />
+          </MapView.Marker>
+
+        {
+          Constants.danger.map((item) => (
+            <MapView.Marker
+            coordinate={{
+              latitude:item.latitude,
+              longitude:item.longitude
+            }}
+            title={"Dangerous point"}
+            key={item.latitude}>
+              <Image source={require('../assets/dangerous_point.png')} style={{width:25, height:25}}/>
+            </MapView.Marker>
+          )
+          )
+        }
+
             </MapView>
             <View style={{
                   position:'absolute',
@@ -87,7 +111,7 @@ export default function NavigationScreen({route, navigation}) {
                 <View style={{flexDirection:'row', flex:0.7, alignItems:'center'}}>
                   <Avatar.Icon icon="hospital-building" color={ 'white'}  backgroundColor={"#094AA8"} size={50} style={{borderRadius:5}} />
                   <Text style={{fontSize:14, fontFamily:'bold-font', color:"#094AA8", marginLeft:'2%'}}>
-                    Spitalul Judetean de Boli Infectioase Timisoara
+                    {destName}
                   </Text>
                 </View>
                 <IconButton   mode='contained' icon='close-circle-outline' color={"white"} size={25} style={{backgroundColor:"#094AA8"}}
