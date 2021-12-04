@@ -455,6 +455,26 @@ static listaJd = [
 
   ];
 
+  static danger4 = [
+    {"latitude" : 45.7524, "longitude": 21.2506}, 
+    {"latitude": 45.7510, "longitude":21.2523},
+    {"latitude":45.7404,  "longitude": 21.2563},
+    {"latitude": 45.7215,  "longitude": 21.2365},
+    {"latitude":45.7388,  "longitude":21.2067 },
+    {"latitude": 45.7374, "longitude":  21.1999 },
+    {"latitude": 45.7772,  "longitude": 21.2208 },
+    {"latitude": 45.7785, "longitude":21.2205 },
+    {"latitude": 45.7514, "longitude":21.2384 },
+    {"latitude": 45.7541, "longitude":  21.2415},
+    {"latitude": 45.7318,  "longitude":21.2326 },
+    {"latitude": 45.7754,  "longitude": 21.2138},
+    {"latitude":45.7531,  "longitude": 21.2157},
+    {"latitude":45.7623,  "longitude":21.2604},
+    {"latitude": 45.7665,  "longitude": 21.2429}
+
+
+  ];
+
   static romPol = [
   {"latitude":46.17556,"longitude":20.72696}, 
   {"latitude":46.18749,"longitude":20.72}, 
