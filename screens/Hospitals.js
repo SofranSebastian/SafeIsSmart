@@ -6,7 +6,7 @@ import { Button, Modal, Portal, Provider, Avatar } from 'react-native-paper';
 import NavigationScreen from './NavigationScreen.js';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import CardHospital from '../components/CardHospital.js';
-
+import Loading from '../components/Loading.js';
 
 export default function Hospitals({route, navigation}){
 
@@ -151,8 +151,11 @@ export default function Hospitals({route, navigation}){
         )
     }else {
         return(
-            <View style={{marginTop:100}}>
-                <Text>Se cauta spitale :(</Text>
+            <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'white'}}>
+                <Loading isDataLoading={true}/>
+                <Text style={{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:'#094AA8', marginTop:'5%', padding:10}}>
+                    Loading
+                </Text>
             </View>
         )
     }
