@@ -7,10 +7,15 @@ import * as Location from 'expo-location';
 import Constants from '../StoredData.js';
 import MapThemes from '../MapThemes.js';
 import { Button, Modal, Portal, Provider, Icon, Avatar, IconButton } from 'react-native-paper';
+import {Audio} from 'expo-av';
+
+
 
 export default function NavigationScreen({route, navigation}) {
 
     const {userLat, userLon, destLat, destLon, destName} = route.params;
+    const [soundLoaded, setSoundLoaded] = useState(false);
+    const [soundObj, setSoundObj] = useState(new Audio.Sound);
     const [currentPosition, setCurrentPosition] = useState({latitude:userLat, longitude:userLon});
     const [rotation, changeRotation] = useState(false);
     const [mode, setMode] = useState("DRIVING");
@@ -18,9 +23,50 @@ export default function NavigationScreen({route, navigation}) {
     const [distance, changeDistance] = useState(0);
     const [time, changeTime] = useState(0);
     const _map = useRef(null);
-    
+
+    function checkPos(userLat,userLon){
+
+      let dangerList = Constants.danger4;
 
 
+      // console.log("Pozitie curenta: ", userLat, " ", userLon);
+      for(let i=0; i<dangerList.length; i++){
+        let newLat = dangerList[i].latitude.toFixed(3); 
+       let  newLon = dangerList[i].longitude.toFixed(3);
+      //  console.log("Pozitie din lista: ", newLat, " ", newLon);
+        if(userLat === newLat && userLon === newLon){
+          console.log("intra aici");
+          soundObj.playAsync();
+          setSoundObj(new Audio.Sound);
+          // break;
+        }
+      }
+
+        // if(dangerList.includes(obj)){
+
+        //   console.log('intra aici');
+        //   // soundObj.playAsync();
+
+        // }
+      
+    }
+
+
+    useEffect(() => {
+      async function loadSounds() {
+      await soundObj.loadAsync(require('../assets/warning.mp3'))
+      setSoundLoaded(true);
+      }
+      
+      loadSounds();
+      }, [soundObj])
+
+
+      const doPlay = () => {
+        soundObj.playAsync();
+        }
+
+        if(soundLoaded === true) {
     return(
         <View style={styles.bigview}>
             <MapView
@@ -30,7 +76,14 @@ export default function NavigationScreen({route, navigation}) {
              showsUserLocation={true}
              showsMyLocationButton={false}
              showsBuildings={false}
-             onUserLocationChange={newLocation => (rotation === true && newLocation.nativeEvent.coordinate.speed > 1.0) ? (_map.current.animateCamera({center: newLocation.nativeEvent.coordinate, heading: newLocation.nativeEvent.coordinate.heading}), setCurrentPosition(newLocation.nativeEvent.coordinate), changeSpeed(newLocation.nativeEvent.coordinate.speed)) : ( setCurrentPosition(newLocation.nativeEvent.coordinate), changeSpeed(newLocation.nativeEvent.coordinate.speed) )}
+             onUserLocationChange={newLocation => (rotation === true && newLocation.nativeEvent.coordinate.speed > 1.0) ? 
+              (_map.current.animateCamera({center: newLocation.nativeEvent.coordinate, heading: newLocation.nativeEvent.coordinate.heading}), 
+              setCurrentPosition(newLocation.nativeEvent.coordinate), 
+              changeSpeed(newLocation.nativeEvent.coordinate.speed),
+              checkPos(newLocation.nativeEvent.coordinate.latitude.toFixed(3), newLocation.nativeEvent.coordinate.longitude.toFixed(3))) : 
+              ( setCurrentPosition(newLocation.nativeEvent.coordinate), 
+              changeSpeed(newLocation.nativeEvent.coordinate.speed),
+              checkPos(newLocation.nativeEvent.coordinate.latitude.toFixed(3), newLocation.nativeEvent.coordinate.longitude.toFixed(3)) )}
 
              initialCamera={{
                center: {
@@ -155,13 +208,20 @@ export default function NavigationScreen({route, navigation}) {
               <View style={{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%'}}></View>
 
               <View style={{flexDirection:'row', justifyContent:'space-around'}}>
-                <Button icon="car" color={ mode ==="DRIVING" ? "#00DBFF":"#094AA8"} onPress={() => setMode('DRIVING')}>drive</Button>
+                <Button icon="car" color={ mode ==="DRIVING" ? "#00DBFF":"#094AA8"} onPress={() => {setMode('DRIVING')}}>drive</Button>
                 <Button icon="walk"  color={ mode ==="WALKING" ? "#00DBFF":"#094AA8"} onPress={() => setMode('WALKING')}>walk</Button>
                 <Button icon="crosshairs-gps" color={ rotation === true ? "#00DBFF": "#094AA8"} onPress={() => (rotation === true ? _map.current.animateCamera({ zoom: 15, pitch: 0 }) : _map.current.animateCamera({ zoom: 18, pitch: 60 }), changeRotation(!rotation))}>center</Button>
               </View>
             </View>
         </View> 
     )
+                      } 
+                      else
+                      {
+                        return(
+                          <View><Text>Se incarca sunetul</Text></View>
+                        )
+                      }
 }
 
 const styles = StyleSheet.create({
