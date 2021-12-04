@@ -2,6 +2,7 @@ import * as React from 'react';
 import { TouchableOpacity,  Linking, Text, View, Image, Platform  } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, List } from 'react-native-paper';
 import { Rating, AirbnbRating } from 'react-native-ratings';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function dialCall( pN ) {
  
@@ -16,6 +17,51 @@ function dialCall( pN ) {
  
     Linking.openURL(phoneNumber);
   };
+
+function checkIfInList(list, name){
+    for( let i = 0 ; i < list.length ; i++ ){
+        if( list[i].name === name){
+            return true;
+        }
+    }
+    return false;
+}
+
+async function addFavouriteHospital( name, adress, destLat, destLon ){
+
+  
+    try {
+        var existingList = await AsyncStorage.getItem('favouritesList')
+        if(JSON.parse(existingList) !== null) {
+          var cloneExistingList = JSON.parse(existingList);
+          
+            
+          let possibleNewHospital = {
+              name: name,
+              adress: adress,
+              destLat: destLat,
+              destLon: destLon
+          }
+
+          if( !checkIfInList(cloneExistingList, name) ){
+                cloneExistingList.push(possibleNewHospital);
+                AsyncStorage.setItem('favouritesList', JSON.stringify(cloneExistingList) )
+          }
+        }else{
+            var list = [];
+            let possibleNewHospital = {
+                name: name,
+                adress: adress,
+                destLat: destLat,
+                destLon: destLon
+            };
+            list.push(possibleNewHospital);
+            AsyncStorage.setItem('favouritesList', JSON.stringify(list) )
+        }
+      } catch(e) {
+        // error reading value
+      }
+}
 
 function CardHospital(props){
 
@@ -185,6 +231,22 @@ function CardHospital(props){
                             :
                               null
                             }
+                            <Button   icon={'star'}
+                                        onPress={() => addFavouriteHospital( props.destName, props.adress, props.destLat, props.destLon)
+                                                }
+                                        color="#094AA8"
+                                        labelStyle={{fontSize:9}}
+                                        mode='contained'
+                                        style={  props.phoneNumber !== undefined ?
+                                                    { marginBottom:'4%'}
+                                                    :
+                                                    { marginBottom:'4%', marginRight:'6%'}
+                                                
+                                            }
+                                >
+                                FAVOURITE
+                            </Button>
+
                             <Button   icon={'chevron-right'}
                                         onPress={() =>props.navigation.navigate("NavigationScreen",{  
                                                                                                         userLat: props.userLat,
