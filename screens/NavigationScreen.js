@@ -28,26 +28,14 @@ export default function NavigationScreen({route, navigation}) {
       let dangerList = Constants.danger4;
 
 
-      // console.log("Pozitie curenta: ", userLat, " ", userLon);
       for(let i=0; i<dangerList.length; i++){
         let newLat = dangerList[i].latitude.toFixed(3); 
        let  newLon = dangerList[i].longitude.toFixed(3);
-      //  console.log("Pozitie din lista: ", newLat, " ", newLon);
         if(userLat === newLat && userLon === newLon){
-          console.log("intra aici");
           soundObj.playAsync();
           setSoundObj(new Audio.Sound);
-          // break;
         }
       }
-
-        // if(dangerList.includes(obj)){
-
-        //   console.log('intra aici');
-        //   // soundObj.playAsync();
-
-        // }
-      
     }
 
 
@@ -60,10 +48,6 @@ export default function NavigationScreen({route, navigation}) {
       loadSounds();
       }, [soundObj])
 
-
-      const doPlay = () => {
-        soundObj.playAsync();
-        }
 
         if(soundLoaded === true) {
     return(
@@ -141,28 +125,11 @@ export default function NavigationScreen({route, navigation}) {
         }
 
             </MapView>
-            <View style={{
-                  position:'absolute',
-                  bottom:10,
-                  backgroundColor:'white',
-                  shadowColor: "#000",
-                  shadowOffset: {
-                      width: 4,
-                      height: 3,
-                  },
-                  shadowOpacity: 0.29,
-                  shadowRadius: 4.65,
-
-                  elevation: 3,
-                  width:'96%',
-                  marginHorizontal:'2%',
-                  height:200,
-                  borderRadius:20
-            }}>
-              <View style={{ marginHorizontal:"5%", marginTop:'5%', flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
-                <View style={{flexDirection:'row', flex:0.7, alignItems:'center'}}>
+            <View style={styles.viewInfoNavigationDialog}>
+              <View style={styles.viewHeaderInfoNav}>
+                <View style={styles.infoNavBuildingIcon}>
                   <Avatar.Icon icon="hospital-building" color={ 'white'}  backgroundColor={"#094AA8"} size={50} style={{borderRadius:5}} />
-                  <Text style={{fontSize:14, fontFamily:'bold-font', color:"#094AA8", marginLeft:'2%'}}>
+                  <Text style={styles.infoNavText}>
                     {destName}
                   </Text>
                 </View>
@@ -173,38 +140,38 @@ export default function NavigationScreen({route, navigation}) {
                        })}
                 />
               </View>
-              <View style={{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%', marginTop:'2%'}}></View>
-              <View style={{flexDirection:'row', justifyContent:'space-around', marginVertical:'2%'}}>
-                <View style={{flexDirection:'row', alignItems:'center'}}>
+              <View style={styles.infoNavSeparator}></View>
+              <View style={styles.infoNavDetails}>
+                <View style={styles.infoNavComponent}>
                   <Avatar.Icon icon="clock-outline" color={ 'white'}  backgroundColor={"#094AA8"} size={25} />
                   <View style={{marginLeft:'5%'}}>
-                    <Text style={{fontSize:12, fontFamily:'bold-font', color:"#094AA8"}} >
+                    <Text style={styles.infoNavContentText} >
                       {time > 60 ? (time/60).toFixed(1)  + ' H' : time.toFixed(1) + " mins"} 
                     </Text>
-                    <Text style={{fontSize:10, fontFamily:'normal-font', color:"#094AA8"}} >Time</Text>
+                    <Text style={styles.infoNavDescriptionText} >Time</Text>
                   </View>
                 </View>
-                <View style={{flexDirection:'row', alignItems:'center'}}>
+                <View style={styles.infoNavComponent}>
                   <Avatar.Icon icon="speedometer" color={ 'white'}  backgroundColor={"#094AA8"} size={25} />
                   <View style={{marginLeft:'5%'}}>
-                    <Text style={{fontSize:12, fontFamily:'bold-font', color:"#094AA8"}} >
+                    <Text style={styles.infoNavContentText} >
                       {parseInt(speed*3.6)} KM/H
                     </Text>
-                    <Text style={{fontSize:10, fontFamily:'normal-font', color:"#094AA8"}} >Current speed</Text>
+                    <Text style={styles.infoNavDescriptionText} >Current speed</Text>
                   </View>
                 </View>
-                <View style={{flexDirection:'row', alignItems:'center'}}>
+                <View style={styles.infoNavComponent}>
                   <Avatar.Icon icon="navigation" color={ 'white'}  backgroundColor={"#094AA8"} size={25} />
                   <View style={{marginLeft:'5%'}}>
-                    <Text style={{fontSize:12, fontFamily:'bold-font', color:"#094AA8"}} >
+                    <Text style={styles.infoNavContentText} >
                       {distance.toFixed(1)} KM
                     </Text>
-                    <Text style={{fontSize:10, fontFamily:'normal-font', color:"#094AA8"}} >Distance</Text>
+                    <Text style={styles.infoNavDescriptionText} >Distance</Text>
                   </View>
                 </View>
               </View>
 
-              <View style={{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%'}}></View>
+              <View style={styles.infoNavSeparator}></View>
 
               <View style={{flexDirection:'row', justifyContent:'space-around'}}>
                 <Button icon="car" color={ mode ==="DRIVING" ? "#00DBFF":"#094AA8"} onPress={() => {setMode('DRIVING')}}>drive</Button>
@@ -218,9 +185,9 @@ export default function NavigationScreen({route, navigation}) {
                       else
                       {
                         return(
-                          <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'white'}}>
+                          <View style={styles.viewLoadingScreen}>
                             <Loading isDataLoading={true}/>
-                            <Text style={{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:'#094AA8', marginTop:'5%', padding:10}}>
+                            <Text style={styles.textLoadingScreen}>
                                 Loading
                             </Text>
                         </View>
@@ -229,6 +196,8 @@ export default function NavigationScreen({route, navigation}) {
 }
 
 const styles = StyleSheet.create({
+  viewLoadingScreen:{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'white'},
+  textLoadingScreen:{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:'#094AA8', marginTop:'5%', padding:10},
     bigview: {
       width:'100%', 
       height:'100%',
@@ -265,5 +234,31 @@ const styles = StyleSheet.create({
       borderRadius:30
       
 
-    }
+    },
+    viewInfoNavigationDialog:{
+      position:'absolute',
+      bottom:10,
+      backgroundColor:'white',
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 4,
+          height: 3,
+      },
+      shadowOpacity: 0.29,
+      shadowRadius: 4.65,
+
+      elevation: 3,
+      width:'96%',
+      marginHorizontal:'2%',
+      height:200,
+      borderRadius:20
+},
+viewHeaderInfoNav:{ marginHorizontal:"5%", marginTop:'5%', flexDirection:'row', justifyContent:'space-between', alignItems:'center'},
+infoNavBuildingIcon:{flexDirection:'row', flex:0.7, alignItems:'center'},
+infoNavText:{fontSize:14, fontFamily:'bold-font', color:"#094AA8", marginLeft:'2%'},
+infoNavSeparator:{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%', marginTop:'2%'},
+infoNavContentText:{fontSize:12, fontFamily:'bold-font', color:"#094AA8"},
+infoNavDescriptionText:{fontSize:10, fontFamily:'normal-font', color:"#094AA8"},
+infoNavDetails:{flexDirection:'row', justifyContent:'space-around', marginVertical:'2%'},
+infoNavComponent:{flexDirection:'row', alignItems:'center'}
   });

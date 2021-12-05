@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Text, View, Image, FlatList } from 'react-native';
+import { Text, View, Image, FlatList, StyleSheet } from 'react-native';
 import Constants from '../StoredData.js';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import CardHospital from '../components/CardHospital.js';
@@ -9,8 +9,6 @@ import Loading from '../components/Loading.js';
 export default function Hospitals({route, navigation}){
 
     const {userLat, userLon, radius} = route.params; 
-    const  destLat = 44.4267674;
-    const  destLon = 26.1025384
 
     const [spitaleGasite, setSpitaleGasite] = useState(false); 
     const [listaSpitale, addSpitale] = useState([]);
@@ -83,7 +81,6 @@ export default function Hospitals({route, navigation}){
         }
 
         if(listaSpitale.length > 0){
-            console.log(listaSpitale);
             setSpitaleGasite(true);
         }
     }
@@ -104,11 +101,11 @@ export default function Hospitals({route, navigation}){
                                     image={{}}
                                     parallaxHeight={200}
                                     foreground={    ()  =>
-                                                        <View style={{flex:1, padding:10, borderRadius:0}}>
+                                                        <View style={styles.foregroundView}>
                                                             <View style={{ alignItems:'center'}}>
                                                                 <Image source={require("../assets/navigation_syringe.png")} style={{width:300, height:100}} resizeMode="contain" />
                                                             </View>
-                                                            <Text style={{fontSize:26, fontFamily:'bold-font', textAlign:'left', color:"white", marginTop:'5%'}}>
+                                                            <Text style={styles.textForeground}>
                                                                 MEDICAL SUPPORT
                                                             </Text>
                                                         </View>
@@ -142,19 +139,25 @@ export default function Hospitals({route, navigation}){
                                                 /> 
                                             </View>
                                                 
-                                                    // listaSpitale.map( (item) => ( <View key={item.key}><Text>{item.placeName}</Text></View> ) )
-                                                
                                             }
             />
         )
     }else {
         return(
-            <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'white'}}>
+            <View style={styles.viewLoadingScreen}>
                 <Loading isDataLoading={true}/>
-                <Text style={{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:'#094AA8', marginTop:'5%', padding:10}}>
+                <Text style={styles.textLoadingScreen}>
                     Loading
                 </Text>
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    viewLoadingScreen:{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'white'},
+    textLoadingScreen:{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:'#094AA8', marginTop:'5%', padding:10},
+    foregroundView:{flex:1, padding:10, borderRadius:0},
+    textForeground:{fontSize:26, fontFamily:'bold-font', textAlign:'left', color:"white", marginTop:'5%'}
+
+});
