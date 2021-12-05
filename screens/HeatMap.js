@@ -12,8 +12,7 @@ import Loading from '../components/Loading.js';
 export default function HeatMap({route, navigation}) {
 
 const [radiusModalVisible, setRadiusModalVisible] = useState(false);
-const hideRadiusModal = () => setRadiusModalVisible(false);
-const showRadiusModal = () => setRadiusModalVisible(true);
+const hideRadiusModal = () => setRadiusModalVisible(false)
 
 const [visible, setVisible] = useState(false);
 const hideModal = () => setVisible(false);
@@ -21,7 +20,6 @@ const showModal = () => setVisible(true);
 
 const [helpModalVisible, setHelpModalVisible] = useState(false);
 const hideHelpModal = () => setHelpModalVisible(false);
-const showHelpModal = () => setHelpModalVisible(true);
 
 const [data_for_modal, setDataForModal] = useState({});
 const [date_gasite, setDate] = useState(false);
@@ -34,14 +32,13 @@ const _map = useRef(null)
 async function getUserLocation(){
   let {status} = await Location.requestForegroundPermissionsAsync();
   if(status !=='granted'){
-    console.log("Nu aveti permisiune pentru locatie");
+    // in cazul in care userul nu a acordat aplicatiei acces la locatie, se doreste terminarea procesului
     return;
   }
 
   let location = await Location.getCurrentPositionAsync({});
   setUserLat(location.coords.latitude);
   setUserLon(location.coords.longitude);
-  // console.log("Locatie user: ", userLat, " ", userLon);
 }
 
 // am folosit api-ul  geolocation pentru a extrage lat si lon pt fiecare judet 
@@ -161,45 +158,36 @@ useEffect(()=>{getData()},[date_gasite]);
 
 
       </MapView>
-      <View style={{position:'absolute', top:'5%', right:10, height: 125, width:170, backgroundColor:'white', borderRadius:20, alignItems:'center',shadowColor: "#000",
-                            shadowOffset: {
-                                width: 4,
-                                height: 3,
-                            },
-                            shadowOpacity: 0.29,
-                            shadowRadius: 4.65,
-
-                            elevation: 3,}}>
-        <Text style={{fontSize:14, fontFamily:'bold-font', textAlign:'center', color:"#094AA8", padding:5}}>ROMANIA COVID-19 HEATMAP LEGEND</Text>
+      <View style={styles.viewLegend}>
+        <Text style={styles.textLegendTitle}>ROMANIA COVID-19 HEATMAP LEGEND</Text>
         <View style={{alignItems:'flex-start'}}>
-          <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-            <View style={{height:15,width:15, borderRadius:20, backgroundColor:'#094AA8'}}></View>
-            <Text style={{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8",paddingVertical:1}}>   over 1000 cases</Text>
+          <View style={styles.viewLegendComponents}>
+            <View style={styles.dotOver1000}></View>
+            <Text style={styles.dotText}>   over 1000 cases</Text>
           </View>
-          <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-            <View style={{height:15,width:15, borderRadius:20, backgroundColor:'#0056F1'}}></View>
-            <Text style={{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8",paddingVertical:1}}>   between 500-1000</Text>
+          <View style={styles.viewLegendComponents}>
+            <View style={styles.dotBetween}></View>
+            <Text style={styles.dotText}>   between 500-1000</Text>
           </View>
-          <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-            <View style={{height:15,width:15, borderRadius:20, backgroundColor:'#7ABAF9'}}></View>
-            <Text style={{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8",paddingVertical:1}}>   below 500</Text>
+          <View style={styles.viewLegendComponents}>
+            <View style={styles.dotUnder500}></View>
+            <Text style={styles.dotText}>   below 500</Text>
           </View>
         </View>
       </View>
-      {/* <Button style={{marginTop:100, position:'absolute'}} onPress={()=> {navigation.navigate("NavigationScreen", { userLat:userLat, userLon:userLon, destLat:44.4267674, destLon:26.1025384  })}}>Press me to navigate</Button> */}
       <Provider>
         <Portal>
           <Modal  visible={radiusModalVisible} 
                   onDismiss={()=> {hideRadiusModal(), setRadius(1)}} 
-                  contentContainerStyle={{backgroundColor: 'white', alignItems:'center', width:'80%', marginHorizontal:'10%',height: 300, borderRadius:20, marginTop:'5%'}}
+                  contentContainerStyle={styles.modalRadius}
           >
             <View style={{flex:1}}>
               <View style={{ flex:0.25, justifyContent:'center', alignItems:'center'}}>
-                    <Text style={{fontSize:24, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"}}>SELECT RADIUS</Text>
-                    <Text style={{fontSize:14, fontFamily:'normal-font', textAlign:'center', color:"#094AA8"}}>VALUE IN KILOMETERS</Text>
+                    <Text style={styles.textSelectRadius}>SELECT RADIUS</Text>
+                    <Text style={styles.textValInKm}>VALUE IN KILOMETERS</Text>
               </View>
               <View style={{ flex:0.4, justifyContent:'center'}}>
-                <Text style={{fontSize:24, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"}}>{radius}</Text>
+                <Text style={styles.textRadius}>{radius}</Text>
                     <Slider
                       style={{width: 250, height: 60}}
                       minimumValue={1}
@@ -211,7 +199,7 @@ useEffect(()=>{getData()},[date_gasite]);
                     /> 
 
               </View>
-              <View style={{flex:0.35, justifyContent:'space-around', alignItems:'center'}}>
+              <View style={styles.viewSearchButton}>
                 <Button icon="magnify" size={20}  mode='contained' color="#094AA8" onPress={()=> navigation.navigate('Hospitals',{ userLat:userLat, userLon:userLon, radius: radius  })}>
                   SEARCH
                 </Button>
@@ -227,30 +215,30 @@ useEffect(()=>{getData()},[date_gasite]);
         <Portal>
           <Modal  visible={visible} 
                   onDismiss={hideModal} 
-                  contentContainerStyle={{backgroundColor: 'white', alignItems:'center', width:'80%', marginHorizontal:'10%',height: 450, borderRadius:20, marginTop:'5%'}}
+                  contentContainerStyle={styles.modalInfoCounty}
           >
             <View style={{flex:1}}>
             <View style={{flex:0.3, alignItems:'center', justifyContent:'center'}}>
               <Image source={{uri:returnCountyImage(data_for_modal.name)}} style={{width:130, height:130}} resizeMode='contain'/>
             </View>
             <View style={{ flex:0.5, justifyContent:'space-around'}}>
-                  <Text style={{fontSize:24, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"}}>{data_for_modal.name}</Text>
-                  <View style={{flexDirection:'column', marginVertical:"2%"}}>
-                    <View style={{alignItems:'center', justifyContent:'center', marginVertical:"4%" }}>
+                  <Text style={styles.countyName}>{data_for_modal.name}</Text>
+                  <View style={styles.viewContyInfo}>
+                    <View style={styles.viuewCountyInfoSection}>
                       <Avatar.Icon size={24} icon="virus" backgroundColor="#094AA8"/>
-                      <Text style={{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8"}}>Total cases: {data_for_modal.total_county}</Text>
+                      <Text style={styles.textCountyInfo}>Total cases: {data_for_modal.total_county}</Text>
                     </View>
-                    <View style={{alignItems:'center', justifyContent:'center', marginVertical:"4%"}}>
+                    <View style={styles.viuewCountyInfoSection}>
                       <Avatar.Icon size={24} icon="bottle-tonic-plus-outline" backgroundColor="#094AA8"/>
-                      <Text style={{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8"}}>Total recovered: {data_for_modal.total_healed}</Text>
+                      <Text style={styles.textCountyInfo}>Total recovered: {data_for_modal.total_healed}</Text>
                     </View> 
-                    <View style={{alignItems:'center', justifyContent:'center', marginVertical:"4%"}}>
+                    <View style={styles.viuewCountyInfoSection}>
                       <Avatar.Icon size={24} icon="coffin" backgroundColor="#094AA8"/>
-                      <Text style={{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8"}}>Total deaths: {data_for_modal.total_dead}</Text>
+                      <Text style={styles.textCountyInfo}>Total deaths: {data_for_modal.total_dead}</Text>
                     </View>
                   </View>
             </View>
-            <View style={{flex:0.2, justifyContent:'center', alignItems:'center'}}>
+            <View style={styles.buttonCounty}>
               <Button icon="close-circle-outline" size={20}  mode='contained' color="#094AA8" onPress={()=>hideModal()}>
                  DISMISS
               </Button>
@@ -266,19 +254,19 @@ useEffect(()=>{getData()},[date_gasite]);
                   contentContainerStyle={{backgroundColor: 'white', alignItems:'center', width:'80%', marginHorizontal:'10%',height: 500, borderRadius:20, marginTop:'5%'}}
           >
             <View style={{flex:1}}>
-              <View style={{ flex:0.2, justifyContent:'center', alignItems:'center'}}>
-                    <Text style={{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"}}>HELP</Text>
+              <View style={styles.viewTitleHelpModal}>
+                    <Text style={styles.textTitleHelpModal}>HELP</Text>
               </View>
               <ScrollView style={{ flex:0.5, width:300 }} contentContainerStyle={{justifyContent:'space-between'}}>
                   <List.Section>
                     <List.Accordion
                         title="Heat Map"
-                        titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
+                        titleStyle={styles.listTitleStyle}
                         left={props => <List.Icon {...props} icon="map-legend" color="#094AA8" />}
                       >
                         <List.Item  title={"As the upper right corner legend mentions the Heat Map represents the total COVID-19 cases by county. By pressing on a Heat Map Circle you can open a modal containing more detailed information about the county's status."} 
-                                    titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}} titleNumberOfLines={10}
-                                    style={{justifyContent:'flex-start', alignItems:'flex-start'}}
+                                    titleStyle={styles.listItemStyle} titleNumberOfLines={10}
+                                    style={styles.itemStyle}
                                     left={()=>{}}
                         />
                     </List.Accordion>
@@ -287,12 +275,12 @@ useEffect(()=>{getData()},[date_gasite]);
 
                     <List.Accordion
                         title="Hospitals"
-                        titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
+                        titleStyle={styles.listTitleStyle}
                         left={props => <List.Icon {...props} icon="hospital" color="#094AA8" />}>
                         <List.Item  title={"Represents the list of medical support centers found nearby your location. For each institution you are provided with a detailed set of information."} 
-                                    titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}
+                                    titleStyle={styles.listItemStyle}
                                     titleNumberOfLines={10}
-                                    style={{justifyContent:'flex-start', alignItems:'flex-start'}}
+                                    style={styles.itemStyle}
                                     left={()=>{}}
                         />
                         
@@ -302,40 +290,40 @@ useEffect(()=>{getData()},[date_gasite]);
 
                     <List.Accordion
                         title="Navigation"
-                        titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
+                        titleStyle={styles.listTitleStyle}
                         left={props => <List.Icon {...props} icon="navigation" color="#094AA8" />}>
                         <List.Item  title={"By pressing the main button from the bottom navigator you'll open a modal where you can set the radius for the next step which consists of finding all the medical support centers within the selected area."} 
-                                    titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}
+                                    titleStyle={styles.listItemStyle}
                                     titleNumberOfLines={10}
-                                    style={{justifyContent:'flex-start', alignItems:'flex-start'}}
+                                    style={styles.itemStyle}
                                     left={()=>{}}
                         />
                         <List.Item  title={"Once you reach the hospital's list you have the option to navigate to each and everyone of them by pressing the `Navigate` button which will open the navigation system incorporated in the application."} 
-                                    titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}
+                                    titleStyle={styles.listItemStyle}
                                     titleNumberOfLines={10}
-                                    style={{justifyContent:'flex-start', alignItems:'flex-start'}}
+                                    style={styles.itemStyle}
                                     left={()=>{}}
                         />
                     
                     </List.Accordion>
                     
 
-                    <View style={{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%', marginVertical:'2%'}}></View>        
+                    <View style={styles.viewSeparator}></View>        
 
                     <List.Accordion
                         title="Favourites"
-                        titleStyle={{fontSize:14, fontFamily:'normal-font', color:"#094AA8"}}
+                        titleStyle={styles.listTitleStyle}
                         left={props => <List.Icon {...props} icon="star" color="#094AA8" />}>
                         <List.Item  title={"Inside the hospital's list you have the option to set a favourite medical support center by pressing the star button. Once you chose one you can find it in the `Favourites` screen."} 
-                                    titleStyle={{fontSize:12, fontFamily:'normal-font', color:"#094AA8"}}
+                                    titleStyle={styles.listItemStyle}
                                     titleNumberOfLines={10}
-                                    style={{justifyContent:'flex-start', alignItems:'flex-start'}}
+                                    style={styles.itemStyle}
                                     left={()=>{}}
                         />
                     </List.Accordion>
                   </List.Section>
               </ScrollView>
-              <View style={{flex:0.3, justifyContent:'space-around', alignItems:'center'}}>
+              <View style={styles.viewButtonDismiss}>
                 <Button icon="close-circle-outline" size={20}  mode='contained' color="#094AA8" onPress={()=>hideHelpModal()}>
                   DISMISS
                 </Button>
@@ -355,9 +343,9 @@ useEffect(()=>{getData()},[date_gasite]);
 }else{
 
   return (
-    <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'white'}}>
+    <View style={styles.viewLoadingScreen}>
       <Loading isDataLoading={true}/>
-      <Text style={{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:'#094AA8', marginTop:'5%', padding:10}}>
+      <Text style={styles.textLoadingScreen}>
           Loading
       </Text>
     </View>
@@ -472,5 +460,40 @@ const styles = StyleSheet.create({
     height:'100%', 
     alignSelf:'center',
     zIndex:-1
-  }
+  },
+  viewLoadingScreen:{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'white'},
+  textLoadingScreen:{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:'#094AA8', marginTop:'5%', padding:10},
+  viewButtonDismiss:{flex:0.3, justifyContent:'space-around', alignItems:'center'},
+  listTitleStyle:{fontSize:14, fontFamily:'normal-font', color:"#094AA8"},
+  listItemStyle : {fontSize:12, fontFamily:'normal-font', color:"#094AA8"},
+  itemStyle: {justifyContent:'flex-start', alignItems:'flex-start'},
+  viewSeparator:{borderWidth:0.5, borderColor:'#EAEBED', width:'90%', marginHorizontal:'5%', marginVertical:'2%'},
+  viewTitleHelpModal:{ flex:0.2, justifyContent:'center', alignItems:'center'},
+  textTitleHelpModal:{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"},
+  buttonCounty:{flex:0.2, justifyContent:'center', alignItems:'center'},
+  countyName:{fontSize:24, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"},
+  viewContyInfo:{flexDirection:'column', marginVertical:"2%"},
+  viuewCountyInfoSection:{alignItems:'center', justifyContent:'center', marginVertical:"4%" },
+  textCountyInfo:{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8"},
+  modalInfoCounty:{backgroundColor: 'white', alignItems:'center', width:'80%', marginHorizontal:'10%',height: 450, borderRadius:20, marginTop:'5%'},
+  viewSearchButton:{flex:0.35, justifyContent:'space-around', alignItems:'center'},
+  textRadius:{fontSize:24, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"},
+  textSelectRadius:{fontSize:24, fontFamily:'bold-font', textAlign:'center', color:"#094AA8"},
+  textValInKm:{fontSize:14, fontFamily:'normal-font', textAlign:'center', color:"#094AA8"},
+  modalRadius:{backgroundColor: 'white', alignItems:'center', width:'80%', marginHorizontal:'10%',height: 300, borderRadius:20, marginTop:'5%'},
+  textLegendTitle:{fontSize:14, fontFamily:'bold-font', textAlign:'center', color:"#094AA8", padding:5},
+  viewLegendComponents:{flexDirection:'row', alignItems:'center', justifyContent:'center'},
+  dotOver1000:{height:15,width:15, borderRadius:20, backgroundColor:'#094AA8'},
+  dotBetween:{height:15,width:15, borderRadius:20, backgroundColor:'#0056F1'},
+  dotUnder500:{height:15,width:15, borderRadius:20, backgroundColor:'#7ABAF9'},
+  dotText:{fontSize:12, fontFamily:'normal-font', textAlign:'center', color:"#094AA8",paddingVertical:1},
+  viewLegend:{position:'absolute', top:'5%', right:10, height: 125, width:170, backgroundColor:'white', borderRadius:20, alignItems:'center',shadowColor: "#000",
+  shadowOffset: {
+      width: 4,
+      height: 3,
+  },
+  shadowOpacity: 0.29,
+  shadowRadius: 4.65,
+
+  elevation: 3,}
 });

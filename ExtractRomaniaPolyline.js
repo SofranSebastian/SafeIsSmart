@@ -10,6 +10,6 @@ csv.parseStream(stream, {headers:true}).on("data", function(data){
     fs.appendFileSync('./output.txt', JSON.stringify(data) + ', \n');
     }
 }).on("end", function(){
-    console.log("done");
+    // end callback for script
 });
 

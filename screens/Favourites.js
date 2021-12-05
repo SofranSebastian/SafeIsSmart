@@ -1,6 +1,6 @@
 
-import React, {useEffect, useState, useRef} from 'react';
-import { Text, View, Image, FlatList } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { Text, View, Image, FlatList, StyleSheet } from 'react-native';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import CardFavourite from '../components/CardFavourite.js';
 import Loading from '../components/Loading.js';
@@ -43,11 +43,11 @@ export default function Favourites({route, navigation}){
                         image={{}}
                         parallaxHeight={225}
                         foreground={    ()  =>
-                                            <View style={{flex:1, padding:10, borderRadius:0}}>
-                                                <View style={{alignItems:'flex-start'}}>
-                                                    <Image source={require("../assets/favourites_artboard.png")} style={{width:400, height:110}} resizeMode="contain" />
+                                            <View style={styles.viewForeground}>
+                                                <View style={styles.viewImageForeground}>
+                                                    <Image source={require("../assets/favourites_artboard.png")} style={styles.imageForeground} resizeMode="contain" />
                                                 </View>
-                                                <Text style={{fontSize:24, fontFamily:'bold-font', textAlign:'left', color:"white", marginTop:'5%'}}>
+                                                <Text style={styles.textForeground}>
                                                     FAVOURITE MEDICAL CENTERS
                                                 </Text>
                                             </View>
@@ -74,20 +74,27 @@ export default function Favourites({route, navigation}){
                             />
                         </View>
                                     
-                                        // listaSpitale.map( (item) => ( <View key={item.key}><Text>{item.placeName}</Text></View> ) )
-                                    
                                 }
 />
         )
     }else{
         return(
-            <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'white'}}>
+            <View style={styles.viewLoadingScreen}>
                 <Loading isDataLoading={true}/>
-                <Text style={{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:'#094AA8', marginTop:'5%', padding:10}}>
+                <Text style={styles.textLoadingScreen}>
                     Loading
                 </Text>
             </View>
         )
     }
-    
+
 }
+
+const styles = StyleSheet.create({
+    viewLoadingScreen:{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'white'},
+    textLoadingScreen:{fontSize:20, fontFamily:'bold-font', textAlign:'center', color:'#094AA8', marginTop:'5%', padding:10},
+    viewForeground:{flex:1, padding:10, borderRadius:0},
+    viewImageForeground:{alignItems:'flex-start'},
+    imageForeground:{width:400, height:110},
+    textForeground:{fontSize:24, fontFamily:'bold-font', textAlign:'left', color:"white", marginTop:'5%'}
+})
