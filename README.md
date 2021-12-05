@@ -12,13 +12,21 @@ The application also provides information about the COVID-19 situation in Romani
 
 # Run it
 
-How to start the project:
+1. Install it on your device(only Android)
 
+     How to start the project:
 
-  - first clone it
-  - use npm install for installing all the needed packages
-  - after the npm install is done start the application with expo start
-  - for running it on a simulator you can leave the Expo server on LAN
-  - if you want to scan the QR Code with the phone you need to switch to TUNNEL connection
+    - you can go into the './apk' and download the application
+  
+
+2. Run it into the Expo environment
+
+   How to start the project:
+
+    - first clone it
+    - use npm install for installing all the needed packages
+    - after the npm install is done start the application with expo start
+    - for running it on a simulator you can leave the Expo server on LAN
+    - if you want to scan the QR Code with the phone you need to switch to TUNNEL connection
 
   
